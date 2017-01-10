@@ -7,6 +7,11 @@ class AdminStyles
     // Make sure only loaded max once
     protected static $loadedCustomACFStyle = false;
 
+    /**
+     * Remove unused metaboxes
+     *
+     * @return void
+     */
     public function removeMetaBoxes()
     {
         // Hide metaboxes
@@ -14,6 +19,11 @@ class AdminStyles
         remove_meta_box('commentstatusdiv', 'page', 'normal');
     }
 
+    /**
+     * Generates footer link to admin screen (wordpress backend)
+     *
+     * @return void
+     */
     public function trueFooter() 
     {
         ?>
@@ -59,7 +69,7 @@ class AdminStyles
                 }
             </style>
             <a href="http://www.trueagency.com.au" target="_blank" class="wp-footer-true-link">
-                <img src="<?= \TrueLib::getImageURL('common/true-footer-logo.png') ?>" alt="Web Design Melbourne"> Web Design Melbourne
+                <img src="<?= \TrueLib::getImageURL('common/true-footer-logo.png') ?>" alt="Digital Agency Melbourne">
             </a>
         <?php
     }
@@ -121,6 +131,11 @@ class AdminStyles
         <?php
     }
 
+    /**
+     * Custom ACF style modifications
+     *
+     * @return void
+     */
     public function customACFStyle()
     {
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
@@ -160,7 +175,7 @@ class AdminStyles
             span.acf-recommended-size:before {
                 position: absolute; content: '';
                 width: 30px; height: 30px;
-                background-image: url("<?= TrueLib::getImageURL('common/icon-size.png') ?>");
+                background-image: url("<?= asset('img/common/icon-size.png') ?>");
                 background-position: center center; background-repeat: no-repeat;
                 top: 0px; left: 0px;
                 background-color: #2980b9;
@@ -174,7 +189,7 @@ class AdminStyles
             only screen and (                min-resolution: 192dpi),
             only screen and (                min-resolution: 2dppx) {
                 span.acf-recommended-size:before {
-                    background-image: url("<?= TrueLib::getImageURL('common/icon-size.png') ?>");
+                    background-image: url("<?= asset('img/common/icon-size.png') ?>");
                     background-size: 25px 25px;
                     -webkit-background-size: 25px 25px;
                 }

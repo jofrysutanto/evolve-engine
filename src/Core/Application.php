@@ -5,6 +5,7 @@ use Closure;
 use EvolveEngine\Router\Router;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
+use October\Rain\Support\Str;
 
 class Application extends Container
 {
@@ -113,6 +114,29 @@ class Application extends Container
     }
 
     /**
+     * Get or check the current application environment.
+     *
+     * @param  mixed
+     * @return string|bool
+     */
+    public function environment()
+    {
+        if (func_num_args() > 0) {
+            $patterns = is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args();
+
+            foreach ($patterns as $pattern) {
+                if (Str::is($pattern, $this['env'])) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return $this['env'];
+    }
+
+    /**
      * This is a dumb-down version of Laravel service provider registerer
      *
      * @return void
@@ -132,9 +156,9 @@ class Application extends Container
      *
      * @return void
      */
-    public function filter($type, $action, $priority = null, $args = null)
+    public function filter($type, $action, $priority = null, $acceptedArgs = 1)
     {
-        return add_filter($type, $this->determineCallableInstance($action), $priority, $args);
+        return add_filter($type, $this->determineCallableInstance($action), $priority, $acceptedArgs);
     }
 
     /**

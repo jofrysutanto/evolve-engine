@@ -18,7 +18,15 @@ class ViewMaker {
         $this->viewRoot = $basePath;
     }
 
-    // Output the content of the template
+    /**
+     * Output HTML string representation of given template
+     *
+     * @param  string  $templateName
+     * @param  array   $extraVars    Additional parameters
+     * @param  boolean $overrideRoot override template root path
+     *
+     * @return void
+     */
     public function render($templateName, $extraVars = array(), $overrideRoot = false) {
         $path = $overrideRoot ?
             $templateName . '.php' :
@@ -27,7 +35,15 @@ class ViewMaker {
         $this->load($path, $extraVars);
     }
 
-    // Return you the HTML Content of a template (it doesn't output the template)
+    /**
+     * Return HTML string representation of given template
+     *
+     * @param  string  $templateName
+     * @param  array   $extraVars    Additional parameters
+     * @param  boolean $overrideRoot override template root path
+     *
+     * @return string
+     */
     public function make($templateName, $extraVars = array(), $overrideRoot = false) {
 
         $path = $overrideRoot ?
@@ -44,10 +60,11 @@ class ViewMaker {
     /**
      * Safely check if a template can be loaded. Throw error
      * when can't be found.
-     * @param  [type] $path [description]
-     * @return [type]       [description]
+     * This method outputs HTML
+     * @param  string $path [description]
+     * @return void
      */
-    private function load($path, $extraVars = array())
+    protected function load($path, $extraVars = array())
     {
         /**
          * Locate Template ensure we can still use our variables in the template files
@@ -70,12 +87,12 @@ class ViewMaker {
             ?>
                 <style>
                 div.view-err-container {
-                background: none repeat scroll 0% 0% #F4726D; padding: 9px 15px;
-                overflow: hidden;
-                position: relative;
-                text-align: left;
-                margin-top: 15px; margin-bottom: 15px;
-                max-width: 960px; margin-left: auto; margin-right: auto;
+                    background: none repeat scroll 0% 0% #F4726D; padding: 9px 15px;
+                    overflow: hidden;
+                    position: relative;
+                    text-align: left;
+                    margin-top: 15px; margin-bottom: 15px;
+                    max-width: 960px; margin-left: auto; margin-right: auto;
                 } 
                 h5.view-err {
                     color: #FFF;
@@ -111,6 +128,11 @@ class ViewMaker {
         return;
     }
 
+    /**
+     * Retrieve available variables from current engine
+     *
+     * @return array
+     */
     public function vars()
     {
         return $this->vars;

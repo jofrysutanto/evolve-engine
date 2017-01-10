@@ -42,6 +42,20 @@ if (! function_exists('view')) {
     }
 }
 
+if (! function_exists('asset')) {
+    /**
+     * Return asset link
+     *
+     * @param  string|null  $name
+     * 
+     * @return string
+     */
+    function asset($name = '')
+    {
+        return get_template_directory_uri() . '/assets/' . $name;
+    }
+}
+
 if (! function_exists('env')) {
     /**
      * Gets the value of an environment variable. Supports boolean, empty and null.
@@ -78,5 +92,19 @@ if (! function_exists('env')) {
         }
 
         return $value;
+    }
+}
+
+if (! function_exists('fluent')) {
+    /**
+     * Creates new fluent object
+     *
+     * @param  mixed
+     * 
+     * @return Illuminate\Support\Fluent
+     */
+    function fluent($object = [])
+    {
+        return new Illuminate\Support\Fluent($object);
     }
 }
