@@ -24,7 +24,7 @@ class AdminStyles
      *
      * @return void
      */
-    public function trueFooter() 
+    public function trueFooter()
     {
         ?>
             <style>
@@ -138,8 +138,7 @@ class AdminStyles
      */
     public function customACFStyle()
     {
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
-        {
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             return;
         }
 
@@ -148,7 +147,6 @@ class AdminStyles
         }
         
         if (!self::$loadedCustomACFStyle) {
-
         ?>
             <style>
             .acf-field.field_type-message {
@@ -228,7 +226,6 @@ class AdminStyles
             }
             </style>
         <?php
-
         }
         self::$loadedCustomACFStyle = true;
     }
