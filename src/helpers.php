@@ -21,6 +21,20 @@ if (! function_exists('app')) {
     }
 }
 
+if (! function_exists('config')) {
+    /**
+     * Return configuration value
+     *
+     * @param  string|null  $name
+     * 
+     * @return mixed
+     */
+    function config($name = '')
+    {
+        return app('config')->get($name);
+    }
+}
+
 if (! function_exists('view')) {
     /**
      * Include view template
