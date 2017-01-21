@@ -3,7 +3,7 @@
     "description": "Evolving WP Engine, by True.",
     "keywords": ["framework", "wordpress", "laravel"],
     "license": "MIT",
-    "type": "project",
+    "type": "package",
     "authors": [
       {
         "name": "Jofry S",
