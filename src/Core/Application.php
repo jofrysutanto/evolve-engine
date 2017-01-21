@@ -45,6 +45,16 @@ class Application extends Container
     }
 
     /**
+     * Get the storage path of the Laravel installation.
+     *
+     * @return string
+     */
+    public function storagePath()
+    {
+        return $this->rootPath.DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'uploads';
+    }
+
+    /**
      * Get the base path of the Laravel installation.
      *
      * @return string
