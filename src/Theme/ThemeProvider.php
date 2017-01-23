@@ -16,30 +16,7 @@ class ThemeProvider extends ServiceProvider
     {
         $themeOptions = $this->app['config']->get('theme');
 
-        $this->registerAcfOptions(array_get($themeOptions, 'acf-options'));
-
         $this->addImageSizes(array_get($themeOptions, 'image-sizes'));
-    }
-
-    /**
-     * Register all acf global options
-     *
-     * @param  array  $opts
-     *
-     * @return void
-     */
-    public function registerAcfOptions($opts)
-    {
-        if(!function_exists('acf_add_options_page')) {
-            return;
-        }
-
-        foreach ($opts as $opt => $config) {
-            acf_add_options_page(array(
-                'page_title' => $opt,
-                'icon_url'   => $this->app['truelib']->getImageURL($config['icon_url']),
-            ));
-        }
     }
 
     /**
