@@ -2,6 +2,7 @@
 
 namespace EvolveEngine\Acf;
 
+use EvolveEngine\Acf\AcfHelper;
 use EvolveEngine\Core\ServiceProvider;
 
 class AcfServiceProvider extends ServiceProvider
@@ -35,7 +36,6 @@ class AcfServiceProvider extends ServiceProvider
     protected function registerExtensions()
     {
         $extender = new Extender;
-
         $extensions = $this->app['config']['acf.extensions'];
         if (is_array($extensions)) {
             foreach ($extensions as $extend) {
@@ -45,6 +45,9 @@ class AcfServiceProvider extends ServiceProvider
 
         $this->app->instance('acf-extensions', $extender);
         $this->app->action('acf/include_field_types', 'acf-extensions@register');
+
+        // Aliasing acf helper
+        $this->app->instance('acf-helper', AcfHelper::instance());
     }
 
     /**
