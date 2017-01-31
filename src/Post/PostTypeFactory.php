@@ -69,7 +69,15 @@ class PostTypeFactory
         if (in_array(get_post_type(), array_keys($this->resolvedTypes))) {
             $post = $this->get($postType);
 
-            if ( $path = $post->getTemplatePath() ) {
+            $templateType = null;
+            if (is_single()) {
+                $templateType = 'single';
+            }
+            if (is_archive()) {
+                $templateType = 'archive';
+            }
+
+            if ( $path = $post->getTemplatePath($templateType) ) {
                 $template_path = $path;
             }
         }

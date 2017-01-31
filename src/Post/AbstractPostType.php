@@ -47,15 +47,14 @@ abstract class AbstractPostType
                 'not_found_in_trash'  => __( 'No ' . $this->pluralName . ' found in Trash', 'TRUE'),
             ],
             'public' => true,
+            'has_archive' => true,
             'show_ui' => true,
             'menu_icon' => $this->getIconPath($this->menuImage . '.png'),
             'supports' => $this->supports,
-            'exclude_from_search' => false,
-            'has_archive'         => false,
+            'exclude_from_search' => false
         ];
             
-        if(trim($this->slug) != '')
-        {
+        if(trim($this->slug) != '') {
             $args['rewrite'] = ['slug' => $this->slug, 'with_front' => false];
         } else {
             $args['rewrite'] = false;
