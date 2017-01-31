@@ -18,6 +18,13 @@ class PostTypeFactory
      */
     protected $resolvedTypes = [];
 
+    /**
+     * Alias of each resolved custom post type
+     *
+     * @var array
+     */
+    protected $resolvedAlias = [];
+
     public function __construct($types = [])
     {
         $this->types = $types;
@@ -34,6 +41,9 @@ class PostTypeFactory
     {
         if (isset($this->resolvedTypes[$id])) {
             return $this->resolvedTypes[$id];
+        }
+        if (isset($this->resolvedAlias[$id])) {
+            return $this->resolvedAlias[$id];
         }
 
         return null;
@@ -52,7 +62,7 @@ class PostTypeFactory
                 continue;
             }
             $typeInstance = with(new $type)->init();
-            $this->resolvedTypes[$typeInstance->id] = $typeInstance;
+            $this->resolvedAlias[$type] = $this->resolvedTypes[$typeInstance->id] = $typeInstance;
         }
     }
 
