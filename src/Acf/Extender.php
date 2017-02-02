@@ -45,4 +45,34 @@ class Extender
         return $this;
     }
 
+    /**
+     * Merge content fields into custom
+     *
+     * @return  void
+     */
+    public function seamlessContentFields()
+    {
+        ?>
+            <script type="text/javascript">
+            (function($) {
+                
+                $(document).ready(function() {
+                    console.log('test')
+                    if ($('#postdivrich').length && $('#seamless').length) {
+                        $('#postdivrich').appendTo($('#seamless .acf-input'))
+                    }
+                    
+                });
+                
+            })(jQuery);    
+            </script>
+            <style type="text/css">
+                .acf-field #wp-content-editor-tools {
+                    background: transparent;
+                    padding-top: 0;
+                }
+            </style>
+            <?php    
+    }
+
 }
