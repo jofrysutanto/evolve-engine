@@ -18,13 +18,13 @@ class UtilityProvider extends ServiceProvider
         {
             return new TrueLib; 
         });
-
-        $this->app->filter('acf/format_value/type=wysiwyg', 'truelib@formatWysiwygFieldValue', 20, 3);
-
         $this->app->singleton('adminstyles', function ()
         {
             return new AdminStyles; 
         });
+
+        $this->app->filter('acf/format_value/type=wysiwyg', 'truelib@formatWysiwygFieldValue', 20, 3);
+
 
         if(is_admin()) {
             // ACF Hooks
