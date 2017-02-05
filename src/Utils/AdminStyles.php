@@ -67,6 +67,68 @@ class AdminStyles
                 .wp-footer-true-link:hover > img {
                     opacity: 1;
                 }
+                .acf-field.acf-field-image.acf-banner-image .acf-image-uploader .hide-if-value {
+                    margin-top: 50px;
+                }
+                .acf-field.acf-field-image.acf-banner-image .acf-image-uploader.has-value {
+                    min-height: 100px;
+                }
+                .acf-field.acf-field-image.acf-banner-image .view.show-if-value {
+                    position: absolute;
+                    z-index: 100;
+                    height: auto;
+                    max-height: 100px;
+                    overflow: hidden;
+                    -webkit-box-shadow: 1px 3px 12px transparent;
+                    box-shadow: 1px 3px 12px transparent;
+                    -webkit-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
+                    -o-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
+                    transition: height .32s ease, max-height .32s ease, box-shadow .32s ease
+                }
+                .acf-field.acf-field-image.acf-banner-image .view.show-if-value img {
+                    -webkit-transform: translate(0, -30px);
+                    -ms-transform: translate(0, -30px);
+                    -o-transform: translate(0, -30px);
+                    transform: translate(0, -30px);
+                    -webkit-transition: transform .32s ease;
+                    -o-transition: transform .32s ease;
+                    transition: transform .32s ease
+                }
+                .acf-field.acf-field-image.acf-banner-image .view.show-if-value:after {
+                    content: '';
+                    position: absolute;
+                    height: 20px;
+                    width: 100%;
+                    bottom: 0;
+                    left: 0;
+                    background-image: -webkit-linear-gradient(top, transparent 0, rgba(0, 0, 0, .25) 100%);
+                    background-image: -o-linear-gradient(top, transparent 0, rgba(0, 0, 0, .25) 100%);
+                    background-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .25) 100%);
+                    background-repeat: repeat-x;
+                    opacity: 1;
+                    filter: alpha(opacity=100);
+                    -webkit-transition: opacity .01s linear .32s;
+                    -o-transition: opacity .01s linear .32s;
+                    transition: opacity .01s linear .32s
+                }
+                .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover {
+                    max-height: 470px;
+                    -webkit-box-shadow: 1px 3px 12px rgba(0, 0, 0, .45);
+                    box-shadow: 1px 3px 12px rgba(0, 0, 0, .45)
+                }
+                .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover img {
+                    -webkit-transform: translate(0, 0);
+                    -ms-transform: translate(0, 0);
+                    -o-transform: translate(0, 0);
+                    transform: translate(0, 0)
+                }
+                .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover:after {
+                    opacity: 0;
+                    filter: alpha(opacity=0);
+                    -webkit-transition: opacity .01s;
+                    -o-transition: opacity .01s;
+                    transition: opacity .01s
+                }
             </style>
             <a href="http://www.trueagency.com.au" target="_blank" class="wp-footer-true-link">
                 <img src="<?= \TrueLib::getImageURL('common/true-footer-logo.png') ?>" alt="Digital Agency Melbourne">
@@ -163,8 +225,11 @@ class AdminStyles
                 margin-top: 0px; margin-bottom: 0px;
                 padding: 10px 15px; background-color: #2DA7AD; color: #fff;
             }
+            .acf-image-uploader {
+                padding-top: 50px;
+            }
             span.acf-recommended-size {
-                background-color: #3498db; color: #fff; position: relative; display: inline-block;
+                background-color: #3498db; color: #fff; position: absolute; display: inline-block; z-index: 101;
                 padding: 0px 0px 0px 30px; margin-top: 10px;
                 line-height: 30px; height: 30px; padding-bottom: 0px;
                 -webkit-transition: padding-bottom 0.2s ease; -o-transition: padding-bottom 0.2s ease; transition: padding-bottom 0.2s ease;
@@ -223,6 +288,9 @@ class AdminStyles
             span.acf-recommended-size:hover > span:before {
                 opacity: 1;
                 -webkit-transition: opacity 0.2s ease 0.08s; -o-transition: opacity 0.2s ease 0.08s; transition: opacity 0.2s ease 0.08s;
+            }
+            .acf-image-uploader.has-value {
+                padding-top: 0px;
             }
             </style>
         <?php

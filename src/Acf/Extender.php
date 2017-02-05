@@ -57,11 +57,9 @@ class Extender
             (function($) {
                 
                 $(document).ready(function() {
-                    console.log('test')
                     if ($('#postdivrich').length && $('#seamless').length) {
                         $('#postdivrich').appendTo($('#seamless .acf-input'))
                     }
-                    
                 });
                 
             })(jQuery);    

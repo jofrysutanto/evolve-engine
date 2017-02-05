@@ -257,4 +257,9 @@ class TrueLib
     {
         echo '<pre>'.print_r($GLOBALS['menu'], true).'</pre>';
     }
+
+    public function getPostsPageId()
+    {
+        return get_option( 'page_for_posts' );
+    }
 }
