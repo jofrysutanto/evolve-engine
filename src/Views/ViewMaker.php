@@ -115,6 +115,23 @@ class ViewMaker {
     }
 
     /**
+     * Check if given view exists
+     *
+     * @param  string  $templateName
+     * @param  boolean $overrideRoot
+     *
+     * @return boolean
+     */
+    public function exists($templateName, $overrideRoot = false)
+    {
+        $path = $overrideRoot ?
+            $templateName . '.php' :
+            $this->viewRoot . $templateName . '.php';
+
+        return file_exists($path);
+    }
+
+    /**
      * Share variable to wordpress page template
      * The opposite method View::extract() needs to be called at the top of 
      * wordpress template
