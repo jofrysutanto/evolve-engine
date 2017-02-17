@@ -14,14 +14,11 @@ class ThemeProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('theme', function ($app)
-        {
-            $themeManager = new ThemeManager($app['config']->get('theme'));
+        $themeManager = new ThemeManager($this->app['config']->get('theme'));
 
-            $themeManager->boot();
+        $themeManager->boot();
 
-            return $themeManager;
-        });
+        $this->app->instance('theme', $themeManager);
     }
 
 }
