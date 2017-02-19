@@ -115,6 +115,7 @@ class AdminStyles
                     max-height: 470px;
                     -webkit-box-shadow: 1px 3px 12px rgba(0, 0, 0, .45);
                     box-shadow: 1px 3px 12px rgba(0, 0, 0, .45)
+                    z-index: 1000;
                 }
                 .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover img {
                     -webkit-transform: translate(0, 0);
