@@ -16,6 +16,7 @@ abstract class AbstractPostType
     protected $singleTemplateName  = 'single-cpt';
     protected $archiveTemplateName = 'archive-cpt';
     protected $menuImage           = 'trueKeylockWPIcons';
+    protected $menuIcon            = null;
 
     protected $supports = ['title'];
 
@@ -34,6 +35,12 @@ abstract class AbstractPostType
      */
     public function init()
     {
+        if($this->menuIcon != null) {
+            $icon = $this->menuIcon;
+        } else {
+            $icon = $this->getIconPath($this->menuImage . '.png');
+        }
+        
         $args = [
             'labels' => [
                 'name' => __( $this->pluralName, 'TRUE'),
@@ -49,7 +56,7 @@ abstract class AbstractPostType
             'public' => true,
             'has_archive' => true,
             'show_ui' => true,
-            'menu_icon' => $this->getIconPath($this->menuImage . '.png'),
+            'menu_icon' => $icon,
             'supports' => $this->supports,
             'exclude_from_search' => false
         ];
