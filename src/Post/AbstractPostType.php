@@ -35,12 +35,6 @@ abstract class AbstractPostType
      */
     public function init()
     {
-        if($this->menuIcon != null) {
-            $icon = $this->menuIcon;
-        } else {
-            $icon = $this->getIconPath($this->menuImage . '.png');
-        }
-        
         $args = [
             'labels' => [
                 'name' => __( $this->pluralName, 'TRUE'),
@@ -56,7 +50,7 @@ abstract class AbstractPostType
             'public' => true,
             'has_archive' => true,
             'show_ui' => true,
-            'menu_icon' => $icon,
+            'menu_icon' => $this->getIcon(),
             'supports' => $this->supports,
             'exclude_from_search' => false
         ];
@@ -174,9 +168,15 @@ abstract class AbstractPostType
      *
      * @return string
      */
-    protected function getIconPath($name = '')
+    protected function getIcon()
     {
-        return asset('img/true-icons/' . $name);
+        if($this->menuIcon != null) {
+            $icon = $this->menuIcon;
+        } else {
+            $icon = asset('img/true-icons/' . $this->menuImage . '.png');
+        }
+
+        return $icon;
     }
 
     /**
