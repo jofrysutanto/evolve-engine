@@ -89,14 +89,14 @@ abstract class AbstractPostType
      *
      * @return void
      */
-    protected function registerTax($id, $tax)
+    protected function registerTax($taxID, $tax)
     {
         // Register Custom Taxonomy
         $labels = array(
             'name'                       => _x( $this->singleName . ' '.$tax['plural'].'', 'Taxonomy General Name', 'text_domain' ),
             'singular_name'              => _x( $this->singleName . ' '.$tax['single'].'', 'Taxonomy Singular Name', 'text_domain' ),
         
-            'menu_name'                  => __( $this->singleName . ' '.$tax['plural'].'', 'text_domain' ),
+            'menu_name'                  => __( $tax['plural'].'', 'text_domain' ),
         
             'all_items'                  => __( $this->singleName . ' '.$tax['plural'].'', 'text_domain' ),
             'parent_item'                => __( 'Parent ' . $this->singleName . ' '.$tax['single'].'', 'text_domain' ),
@@ -125,8 +125,10 @@ abstract class AbstractPostType
             'rewrite'                    => array('with_front'=> false, 'slug' => $tax['slug']),
             'show_tagcloud'              => false,
         );
+
+        $args = $this->extendTaxConfigurations($taxID, $args);
         
-        register_taxonomy($id, $this->id, $args );
+        register_taxonomy($taxID, $this->id, $args );
     }
 
     /**
@@ -187,6 +189,19 @@ abstract class AbstractPostType
      * @return array
      */
     protected function extendConfigurations($config)
+    {
+        // Modify configuration here and return $config
+        return $config;
+    }
+
+    /**
+     * Allow extension to configurations when registering custom post type
+     *
+     * @param  array  $config  Existing configuration
+     *
+     * @return array
+     */
+    protected function extendTaxConfigurations($tax, $config)
     {
         // Modify configuration here and return $config
         return $config;
