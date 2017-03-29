@@ -183,10 +183,9 @@ class AdminStyles
                 background-position: bottom center;
                 background-repeat: no-repeat;
             }
-            h1 a
-            {
+            h1 a {
                 /** Change width and height according to logo */
-                width:200px !important; height:100px !important;
+                width:324px !important; height:100px !important;
                 background: url('<?= \TrueLib::getImageURL('logoLogin.png')?>') no-repeat center center !important;
                 -webkit-background-size: auto auto !important; background-size: auto auto !important;
             }
