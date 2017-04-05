@@ -155,7 +155,8 @@ abstract class AbstractPostType
             return false;
         }
 
-        $filePath = locate_template([$path]);
+        $filePath = locate_template(['page-templates/' . $path . '.php']);
+
         if (!$filePath) {
             return false;
         }
