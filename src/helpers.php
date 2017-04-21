@@ -98,6 +98,21 @@ if (! function_exists('view')) {
     }
 }
 
+if (! function_exists('route')) {
+    /**
+     * Route
+     *
+     * @param  string|null  $name  
+     * @param  array   $parameters
+     * 
+     * @return String
+     */
+    function route($name = null, $parameters = [])
+    {
+        return app('router')->url($name, $parameters);
+    }
+}
+
 if (! function_exists('asset')) {
     /**
      * Return asset link

@@ -163,7 +163,7 @@ class Route
                         $this->setControllerMethod($value);
                         break;
                     case 'as':
-                        $this->name($value);
+                        $this->name = $value;
                         break;
                     case 'on':
                         $this->on($value);
