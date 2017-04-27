@@ -130,15 +130,26 @@ if (! function_exists('asset')) {
 if (! function_exists('asset_version')) {
     /**
      * Return asset version from manifest file
+     * 
+     * @param string $path Override version manifest file path. If not supplied, default path will be used.
      *
      * @return string
      */
-    function asset_version()
+    function asset_version($path = null)
     {
         static $version = false;
 
         if ($version === false) {
-            $version = json_decode(file_get_contents(asset('version.json')), true);
+            if (is_null($path)) {
+                $path = base_path('assets/version.json');
+            }
+
+            if (!file_exists($path)) {
+                $version = [];
+            } else {
+                $version = json_decode(file_get_contents($path), true);
+            }
+
         }
 
         return isset($version['version'])
