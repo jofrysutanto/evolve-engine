@@ -47,11 +47,11 @@ abstract class AbstractPostType
                 'not_found'           => __( 'No ' . $this->pluralName . ' found', 'TRUE'),
                 'not_found_in_trash'  => __( 'No ' . $this->pluralName . ' found in Trash', 'TRUE'),
             ],
-            'public' => true,
-            'has_archive' => true,
-            'show_ui' => true,
-            'menu_icon' => $this->getIcon(),
-            'supports' => $this->supports,
+            'public'              => true,
+            'has_archive'         => true,
+            'show_ui'             => true,
+            'menu_icon'           => $this->getIcon(),
+            'supports'            => $this->supports,
             'exclude_from_search' => false
         ];
             
@@ -155,7 +155,12 @@ abstract class AbstractPostType
             return false;
         }
 
-        $filePath = locate_template(['page-templates/' . $path . '.php']);
+        $path = 'page-templates/' . $path;
+        if (!ends_with($path, '.php')) {
+            $path .= '.php';
+        }
+
+        $filePath = locate_template([$path]);
 
         if (!$filePath) {
             return false;
