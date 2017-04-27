@@ -127,6 +127,26 @@ if (! function_exists('asset')) {
     }
 }
 
+if (! function_exists('asset_version')) {
+    /**
+     * Return asset version from manifest file
+     *
+     * @return string
+     */
+    function asset_version()
+    {
+        static $version = false;
+
+        if ($version === false) {
+            $version = json_decode(file_get_contents(asset('version.json')), true);
+        }
+
+        return isset($version['version'])
+            ? $version['version']
+            : '';
+    }
+}
+
 if (! function_exists('env')) {
     /**
      * Gets the value of an environment variable. Supports boolean, empty and null.
