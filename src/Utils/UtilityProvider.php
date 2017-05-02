@@ -24,7 +24,9 @@ class UtilityProvider extends ServiceProvider
         });
 
         $this->app->filter('acf/format_value/type=wysiwyg', 'truelib@formatWysiwygFieldValue', 20, 3);
-
+        $this->app->action('wp_head', 'truelib@addGoogleAnalytics');
+        
+        add_filter( 'w3tc_can_print_comment', '__return_false', 10, 1 );
 
         if(is_admin()) {
             // ACF Hooks
@@ -42,5 +44,4 @@ class UtilityProvider extends ServiceProvider
         // Admin footer
         $this->app->filter('admin_footer_text', 'adminstyles@trueFooter');
     }
-
 }
