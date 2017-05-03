@@ -41,9 +41,9 @@ class ShareBuilder
 
         if (!isset($this->cache[$name])) {
             $services = array_get($shareConfig, 'services', []);
-            $urlResolver = array_get($shareConfig, 'custom_resolver');
+            $customResolver = array_get($shareConfig, 'custom_resolver');
 
-            $this->cache[$name] = $this->buildShareServices($services, $urlResolver);
+            $this->cache[$name] = $this->buildShareServices($services, $customResolver);
         }
 
         $shareable = $this->cache[$name];
@@ -56,17 +56,17 @@ class ShareBuilder
      * Creates collection of share object
      *
      * @param  array  $services
-     * @param  string|null  $urlResolver URL customiser 
+     * @param  array|null  $customResolver Custom resolver
      *
      * @return Collection
      */
-    protected function buildShareServices($services, $urlResolver = null)
+    protected function buildShareServices($services, $customResolver = null)
     {
         $shareable = [];
         foreach ($services as $service) {
             $shareService = new \Illuminate\Support\Fluent([
                 'service' => $service,
-                'url'     => $this->resolveServiceUrl($service, $urlResolver)
+                'url'     => $this->resolveServiceUrl($service, $customResolver)
             ]);
             $shareable[] = $shareService;
         }
@@ -77,19 +77,49 @@ class ShareBuilder
     /**
      * Returns share url for given service
      *
-     * @param  string       $serviceName Key name of service
-     * @param  string|null  $urlResolver URL customiser 
+     * @param  string     $serviceName Key name of service
+     * @param  array|null $customResolver Custom resolver
      *
      * @return string
      */
-    protected function resolveServiceUrl($serviceName, $urlResolver = null)
+    protected function resolveServiceUrl($serviceName, $customResolver = null)
     {
-        if (is_null($urlResolver)) {
-            return app('request')->fullUrl();
+        if (is_null($customResolver)) {
+            $shareUrl   = app('request')->fullUrl();
+            $shareTitle = function_exists('get_the_title');
         }
-        if (is_string($urlResolver)) {
-            return $urlResolver;
+        else if (is_array($customResolver)) {
+            $shareTitle = array_get($customResolver, 'title');
+            $shareUrl = array_get($customResolver, 'url');
         }
+
+        /**
+         * @see https://simplesharebuttons.com/html-share-buttons/
+         */
+        switch ($serviceName) {
+            case 'facebook':
+                $serviceUrl = "http://www.facebook.com/sharer.php?u=%url%";
+                break;
+            case 'twitter':
+                $serviceUrl = "https://twitter.com/share?url=%url%&amp;text=%title%";
+                break;
+            case 'linkedin':
+                $serviceUrl = "http://www.linkedin.com/shareArticle?mini=true&amp;url=%url%";
+                break;
+            case 'googleplus':
+                $serviceUrl = "https://plus.google.com/share?url=%url%";
+                break;
+            case 'email':
+                $serviceUrl = "mailto:?Subject=%title%&amp;Body=%url%";
+                break;
+            default:
+                break;
+        }
+
+        $serviceUrl = str_replace('%url%', $shareUrl, $serviceUrl);
+        $serviceUrl = str_replace('%title%', $shareTitle, $serviceUrl);
+
+        return $serviceUrl;
     }
 
     /**
