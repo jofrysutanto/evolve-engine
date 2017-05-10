@@ -52,7 +52,12 @@ abstract class WordpressBase
      */
     public function filter($type, $action, $priority = null, $acceptedArgs = 1)
     {
-        return add_filter($type, $this->determineCallableInstance($action), $priority, $acceptedArgs);
+        if (!is_array($action)) {
+            $action = [$action];
+        }
+        foreach ($action as $actionMethod) {
+            add_filter($type, $this->determineCallableInstance($actionMethod), $priority, $acceptedArgs);
+        }
     }
 
     /**
@@ -62,7 +67,12 @@ abstract class WordpressBase
      */
     public function action($type, $action)
     {
-        return add_filter($type, $this->determineCallableInstance($action));
+        if (!is_array($action)) {
+            $action = [$action];
+        }
+        foreach ($action as $actionMethod) {
+            add_filter($type, $this->determineCallableInstance($actionMethod));
+        }
     }
 
     /**
