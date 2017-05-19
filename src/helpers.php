@@ -158,6 +158,32 @@ if (! function_exists('asset_version')) {
     }
 }
 
+if (! function_exists('get_cpt')) {
+    /**
+     * Convenient method to create post type instance
+     *
+     * @param  string  $id  Post type identifier
+     * @return mixed
+     */
+    function get_cpt($id = 'post')
+    {
+        return app('post-type')->get($id);
+    }
+}
+
+if (! function_exists('getcpt')) {
+    /**
+     * Alias to get_cpt()
+     *
+     * @param  string  $id  Post type identifier
+     * @return mixed
+     */
+    function getcpt($id = 'post')
+    {
+        return get_cpt($id);
+    }
+}
+
 if (! function_exists('env')) {
     /**
      * Gets the value of an environment variable. Supports boolean, empty and null.
