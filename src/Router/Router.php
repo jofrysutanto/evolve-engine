@@ -73,6 +73,11 @@ class Router
         return $this->registerRoute('post', $url, $config);
     }
 
+    public function url($name, $params = [])
+    {
+        return $this->matcher->url($name, $params);
+    }
+
     /**
      * Register new route
      *
