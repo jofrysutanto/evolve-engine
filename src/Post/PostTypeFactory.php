@@ -4,6 +4,14 @@ namespace EvolveEngine\Post;
 
 class PostTypeFactory
 {
+
+    /**
+     * Post types namespace for the application
+     *
+     * @var string
+     */
+    protected $namespace = 'App\\PostTypes\\';
+
     /**
      * All resolvable custom post types
      *
@@ -42,8 +50,10 @@ class PostTypeFactory
         if (isset($this->resolvedTypes[$id])) {
             return $this->resolvedTypes[$id];
         }
-        if (isset($this->resolvedAlias[$id])) {
-            return $this->resolvedAlias[$id];
+
+        $namespacedId = $this->applyNamespace($id);
+        if (isset($this->resolvedAlias[$namespacedId])) {
+            return $this->resolvedAlias[$namespacedId];
         }
 
         return null;
@@ -93,6 +103,22 @@ class PostTypeFactory
         }
         
         return $template_path;
+    }
+
+    /**
+     * Apply namespace to given post type id to shorten post type usage
+     *
+     * @param  string $id e.g. 'Product', which will be translated ot 'App\PostTypes\Product'
+     *
+     * @return string
+     */
+    protected function applyNamespace($id)
+    {
+        if (class_exists($id)) {
+            return $id;
+        }
+
+        return $this->namespace . $id;
     }
 
 }

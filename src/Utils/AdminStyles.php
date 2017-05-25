@@ -67,72 +67,9 @@ class AdminStyles
                 .wp-footer-true-link:hover > img {
                     opacity: 1;
                 }
-                .acf-field.acf-field-image.acf-banner-image .acf-image-uploader .hide-if-value {
-                    margin-top: 50px;
-                }
-                .acf-field.acf-field-image.acf-banner-image .acf-image-uploader.has-value {
-                    min-height: 100px;
-                }
-                .acf-field.acf-field-image.acf-banner-image .view.show-if-value {
-                    position: relative;
-                    z-index: 100;
-                    height: auto;
-                    max-height: 100px;
-                    overflow: hidden;
-                    -webkit-box-shadow: 1px 3px 12px transparent;
-                    box-shadow: 1px 3px 12px transparent;
-                    -webkit-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
-                    -o-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
-                    transition: height .32s ease, max-height .32s ease, box-shadow .32s ease
-                }
-                .acf-field.acf-field-image.acf-banner-image .view.show-if-value img {
-                    -webkit-transform: translate(0, -30px);
-                    -ms-transform: translate(0, -30px);
-                    -o-transform: translate(0, -30px);
-                    transform: translate(0, -30px);
-                    -webkit-transition: transform .32s ease;
-                    -o-transition: transform .32s ease;
-                    transition: transform .32s ease
-                }
-                .acf-field.acf-field-image.acf-banner-image .view.show-if-value:after {
-                    content: '';
-                    position: absolute;
-                    height: 20px;
-                    width: 100%;
-                    bottom: 0;
-                    left: 0;
-                    background-image: -webkit-linear-gradient(top, transparent 0, rgba(0, 0, 0, .25) 100%);
-                    background-image: -o-linear-gradient(top, transparent 0, rgba(0, 0, 0, .25) 100%);
-                    background-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .25) 100%);
-                    background-repeat: repeat-x;
-                    opacity: 1;
-                    filter: alpha(opacity=100);
-                    -webkit-transition: opacity .01s linear .32s;
-                    -o-transition: opacity .01s linear .32s;
-                    transition: opacity .01s linear .32s
-                }
-                .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover {
-                    max-height: 470px;
-                    -webkit-box-shadow: 1px 3px 12px rgba(0, 0, 0, .45);
-                    box-shadow: 1px 3px 12px rgba(0, 0, 0, .45)
-                    z-index: 1000;
-                }
-                .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover img {
-                    -webkit-transform: translate(0, 0);
-                    -ms-transform: translate(0, 0);
-                    -o-transform: translate(0, 0);
-                    transform: translate(0, 0)
-                }
-                .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover:after {
-                    opacity: 0;
-                    filter: alpha(opacity=0);
-                    -webkit-transition: opacity .01s;
-                    -o-transition: opacity .01s;
-                    transition: opacity .01s
-                }
             </style>
-            <a href="http://www.trueagency.com.au" target="_blank" class="wp-footer-true-link">
-                <img src="<?= \TrueLib::getImageURL('common/true-footer-logo.png') ?>" alt="Digital Agency Melbourne">
+            <a href="https://www.trueagency.com.au" target="_blank" class="wp-footer-true-link">
+                True Agency
             </a>
         <?php
     }
@@ -291,6 +228,69 @@ class AdminStyles
             }
             .acf-image-uploader.has-value {
                 padding-top: 0px;
+            }
+            .acf-field.acf-field-image.acf-banner-image .acf-image-uploader .hide-if-value {
+                margin-top: 50px;
+            }
+            .acf-field.acf-field-image.acf-banner-image .acf-image-uploader.has-value {
+                min-height: 100px;
+            }
+            .acf-field.acf-field-image.acf-banner-image .view.show-if-value {
+                position: relative;
+                z-index: 100;
+                height: auto;
+                max-height: 100px;
+                overflow: hidden;
+                -webkit-box-shadow: 1px 3px 12px transparent;
+                box-shadow: 1px 3px 12px transparent;
+                -webkit-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
+                -o-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
+                transition: height .32s ease, max-height .32s ease, box-shadow .32s ease
+            }
+            .acf-field.acf-field-image.acf-banner-image .view.show-if-value img {
+                -webkit-transform: translate(0, -30px);
+                -ms-transform: translate(0, -30px);
+                -o-transform: translate(0, -30px);
+                transform: translate(0, -30px);
+                -webkit-transition: transform .32s ease;
+                -o-transition: transform .32s ease;
+                transition: transform .32s ease
+            }
+            .acf-field.acf-field-image.acf-banner-image .view.show-if-value:after {
+                content: '';
+                position: absolute;
+                height: 20px;
+                width: 100%;
+                bottom: 0;
+                left: 0;
+                background-image: -webkit-linear-gradient(top, transparent 0, rgba(0, 0, 0, .25) 100%);
+                background-image: -o-linear-gradient(top, transparent 0, rgba(0, 0, 0, .25) 100%);
+                background-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .25) 100%);
+                background-repeat: repeat-x;
+                opacity: 1;
+                filter: alpha(opacity=100);
+                -webkit-transition: opacity .01s linear .32s;
+                -o-transition: opacity .01s linear .32s;
+                transition: opacity .01s linear .32s
+            }
+            .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover {
+                max-height: 470px;
+                -webkit-box-shadow: 1px 3px 12px rgba(0, 0, 0, .45);
+                box-shadow: 1px 3px 12px rgba(0, 0, 0, .45)
+                z-index: 1000;
+            }
+            .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover img {
+                -webkit-transform: translate(0, 0);
+                -ms-transform: translate(0, 0);
+                -o-transform: translate(0, 0);
+                transform: translate(0, 0)
+            }
+            .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover:after {
+                opacity: 0;
+                filter: alpha(opacity=0);
+                -webkit-transition: opacity .01s;
+                -o-transition: opacity .01s;
+                transition: opacity .01s
             }
             </style>
         <?php
