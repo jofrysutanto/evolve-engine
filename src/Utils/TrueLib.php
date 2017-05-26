@@ -68,27 +68,28 @@ class TrueLib
      */
     public function printSocialAwesome($iconModifier = '')
     {
-        if(get_field('social_accounts', 'option'))
-        {
-            while(has_sub_field('social_accounts', 'option'))
-            {  
-                $type = get_sub_field('account_type');
-                $url = get_sub_field('account_url');
-                $iconType = $type;
-                if ($type == 'youtube') {
-                    $iconType = 'youtube-play';
-                }
-                if(trim($url) != '')
-                {
-                    ?>
-                    <li class="social-<?= $type ?>">
-                        <a href="<?=$url?>" class="social-button <?=$type?>" target="_blank" title="<?= ucfirst($type) ?>">
-                            <i class="fa fa-<?= $iconType ?> <?= $iconModifier ?>"></i>
-                        </a>
-                    </li>
-                    <?php
-                }
+        if(!get_field('social_accounts', 'option')) {
+            return;
+        }
+
+        while(has_sub_field('social_accounts', 'option')) {  
+            $type = get_sub_field('account_type');
+            $url  = get_sub_field('account_url');
+            if (trim($url) === '') {
+                continue;
             }
+
+            $iconType = $type;
+            if ($type == 'youtube') {
+                $iconType = 'youtube-play';
+            }
+            ?>
+            <li class="social-<?= $type ?>">
+                <a href="<?=$url?>" class="social-button <?=$type?>" target="_blank" title="<?= ucfirst($type) ?>">
+                    <i class="fa fa-<?= $iconType ?> <?= $iconModifier ?>"></i>
+                </a>
+            </li>
+            <?php
         }
     }
 
@@ -152,8 +153,7 @@ class TrueLib
             }
 
               //If we have an image, display it!
-            if($image)
-            {
+            if($image) {
                 if($size != '')
                 {
                     $imageURL = $image['sizes'][$size];
