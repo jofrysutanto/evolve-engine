@@ -5,22 +5,9 @@ namespace EvolveEngine\Analytics;
 class AnalyticsManager
 {
 
-    /**
-     * @var Repository
-     */
     protected $config;
 
-    /**
-     * @var ViewMaker
-     */
     protected $view;
-
-    /**
-     * Extendable analytics service
-     * 
-     * @var array
-     */
-    protected $customCreator = [];
 
     public function __construct(array $config = [])
     {
@@ -36,10 +23,7 @@ class AnalyticsManager
      * @return void
      */
     public function render($type)
-    {   
-        if (!$this->shouldUseAnalytics()) {
-            return;
-        }
+    {
         switch ($type) {
             case 'google-analytics':
                 $this->renderGoogleAnalytics();
@@ -51,52 +35,7 @@ class AnalyticsManager
                 $this->renderGoogleTagManager(false);
                 break;
             default:
-                $this->callCustomCreator($type);
                 break;
-        }
-    }
-
-    public function extend($key, $callable)
-    {
-        $this->customCreator[$key] = $callable;
-        return $this;
-    }
-
-    public function callCustomCreator($type)
-    {
-        if (!isset($this->customCreator[$type])) {
-            throw new \Exception("Service $type not registered");
-        }
-
-        $service       = $this->customCreator[$type];
-        $serviceConfig = array_get($this->config, 'services.'. $type);
-
-        if (is_callable($service)) {
-            echo call_user_func($service, $serviceConfig);
-        }
-        else if (class_exists($service)) {
-            echo with(new $service)->render($serviceConfig);
-        }
-        return;
-    }
-
-    /**
-     * Inject script to head
-     */
-    public function injectHead()
-    {
-        foreach ($this->config['inject']['head'] as $config) {
-            $this->render($config);
-        }
-    }
-
-    /**
-     * Inject script to footer
-     */
-    public function injectFooter()
-    {
-        foreach ($this->config['inject']['footer'] as $config) {
-            $this->render($config);
         }
     }
 
@@ -173,15 +112,5 @@ class AnalyticsManager
         }
 
         return $this->view->make(__DIR__ . '/views/google-tag-manager-no-script', ['code' => $code], true);
-    }
-
-    /**
-     * Check production environment
-     *
-     * @return boolean
-     */
-    protected function shouldUseAnalytics()
-    {
-        return app()->environment($this->config['environment']);
     }
 }

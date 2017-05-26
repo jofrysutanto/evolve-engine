@@ -19,9 +19,6 @@ class AnalyticsServiceProvider extends ServiceProvider
             $config = $app['config']->get('analytics', []);
             return new AnalyticsManager($config); 
         });
-
-        $this->app->action('wp_head',   'analytics@injectHead');
-        $this->app->action('wp_footer', 'analytics@injectFooter');
     }
 
 }
