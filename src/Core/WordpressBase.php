@@ -65,13 +65,13 @@ abstract class WordpressBase
      *
      * @return void
      */
-    public function action($type, $action)
+    public function action($type, $action, $priority = null, $acceptedArgs = 1)
     {
         if (!is_array($action)) {
             $action = [$action];
         }
         foreach ($action as $actionMethod) {
-            add_filter($type, $this->determineCallableInstance($actionMethod));
+            add_action($type, $this->determineCallableInstance($actionMethod), $priority, $acceptedArgs);
         }
     }
 
