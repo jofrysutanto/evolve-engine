@@ -166,8 +166,8 @@ class AdminStyles
                 padding-top: 50px;
             }
             span.acf-recommended-size {
-                background-color: #3498db; color: #fff; position: absolute; display: inline-block; z-index: 101;
-                padding: 0px 0px 0px 30px; margin-top: 10px;
+                background-color: #3498db; color: #fff; position: relative; display: inline-block; z-index: 101;
+                padding: 0px 0px 0px 30px; margin-bottom: 5px;
                 line-height: 30px; height: 30px; padding-bottom: 0px;
                 -webkit-transition: padding-bottom 0.2s ease; -o-transition: padding-bottom 0.2s ease; transition: padding-bottom 0.2s ease;
             }
