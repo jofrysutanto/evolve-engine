@@ -236,7 +236,7 @@ class AdminStyles
                 min-height: 100px;
             }
             .acf-field.acf-field-image.acf-banner-image .view.show-if-value {
-                position: relative;
+                position: absolute;
                 z-index: 100;
                 height: auto;
                 max-height: 100px;
