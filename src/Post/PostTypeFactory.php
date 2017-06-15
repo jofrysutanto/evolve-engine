@@ -86,6 +86,11 @@ class PostTypeFactory
     public function includeTemplate($template_path)
     {
         $postType = get_post_type();
+
+        if (is_search()) {
+            return $template_path;
+        }
+        
         if (in_array(get_post_type(), array_keys($this->resolvedTypes))) {
             $post = $this->get($postType);
 
