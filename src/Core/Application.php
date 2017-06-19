@@ -9,6 +9,12 @@ use October\Rain\Support\Str;
 
 class Application extends Container
 {
+
+    protected $booted = false;
+
+    protected $serviceProviders = [];    
+
+
     /**
      * Directory to the root wordpres installation
      */
@@ -24,6 +30,7 @@ class Application extends Container
         \EvolveEngine\Core\Bootstrap\ConsumeRequest::class,
         \EvolveEngine\Core\Bootstrap\RegisterFacades::class,
         \EvolveEngine\Core\Bootstrap\RegisterProviders::class,
+        \EvolveEngine\Core\Bootstrap\BootProviders::class,
     ];
 
     public function __construct($rootPath, $basePath)
@@ -106,6 +113,8 @@ class Application extends Container
             $bootstrapper = new $bootstrapper;
             $bootstrapper->bootstrap($this);
         }
+
+        $providers = $this->config['app.providers'];
     }
 
     /**
@@ -118,7 +127,6 @@ class Application extends Container
         static::setInstance($this);
         $this->instance('app', $this);
         $this->instance('Illuminate\Container\Container', $this);
-
         $this->instance('path.lang', $this->langPath());
         $this->instance('path.config', $this->configPath());
     }
@@ -171,6 +179,28 @@ class Application extends Container
         foreach ($providers as $provider) {
             $providerService = new $provider($this);
             $providerService->register();
+
+            $this->serviceProviders[] = $providerService;
+        }
+    }
+
+    public function boot()
+    {
+        array_walk($this->serviceProviders, function ($p) {
+            $this->bootProvider($p);
+        });
+    }
+
+    /**
+     * Boot the given service provider.
+     *
+     * @param  \Illuminate\Support\ServiceProvider  $provider
+     * @return mixed
+     */
+    protected function bootProvider($provider)
+    {
+        if (method_exists($provider, 'boot')) {
+            return $this->call([$provider, 'boot']);
         }
     }
 
