@@ -75,6 +75,16 @@ class Application extends Container
     }
 
     /**
+     * Get the path to the application language files.
+     *
+     * @return string
+     */
+    public function langPath()
+    {
+        return $this->basePath.DIRECTORY_SEPARATOR.'resources' . DIRECTORY_SEPARATOR . 'lang';
+    }
+
+    /**
      * Get the path to the application view files.
      *
      * @return string
@@ -108,6 +118,9 @@ class Application extends Container
         static::setInstance($this);
         $this->instance('app', $this);
         $this->instance('Illuminate\Container\Container', $this);
+
+        $this->instance('path.lang', $this->langPath());
+        $this->instance('path.config', $this->configPath());
     }
 
     /**
