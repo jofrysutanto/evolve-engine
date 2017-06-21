@@ -16,13 +16,17 @@ class WordpressServiceProvider extends ServiceProvider
         // 'main' => \App\Main::class  
     ];
 
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
     public function register()
     {
-        
     }
 
     /**
-     * Register the service provider.
+     * Boot the service provider.
      *
      * @return void
      */
