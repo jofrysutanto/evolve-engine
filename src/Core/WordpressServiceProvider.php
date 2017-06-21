@@ -16,12 +16,17 @@ class WordpressServiceProvider extends ServiceProvider
         // 'main' => \App\Main::class  
     ];
 
+    public function register()
+    {
+        
+    }
+
     /**
      * Register the service provider.
      *
      * @return void
      */
-    public function register()
+    public function boot()
     {
         $this->bindHooksFilters();
     }
