@@ -35,6 +35,7 @@ class Application extends Container
      */
     protected $bootstrappers = [
         \EvolveEngine\Core\Bootstrap\LoadConfiguration::class,
+        \EvolveEngine\Core\Bootstrap\HandleExceptions::class,
         \EvolveEngine\Core\Bootstrap\ConsumeRequest::class,
         \EvolveEngine\Core\Bootstrap\RegisterFacades::class,
         \EvolveEngine\Core\Bootstrap\RegisterProviders::class,
