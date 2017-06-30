@@ -73,9 +73,17 @@ class Router
         return $this->registerRoute('post', $url, $config);
     }
 
+    /**
+     * Get the URL
+     *
+     * @param  String $name  
+     * @param  array  $params
+     *
+     * @return String 
+     */
     public function url($name, $params = [])
     {
-        return $this->matcher->url($name, $params);
+        return $this->container['config']->get('app.url') . $this->matcher->url($name, $params);
     }
 
     /**
