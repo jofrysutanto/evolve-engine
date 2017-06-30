@@ -10,10 +10,15 @@ use October\Rain\Support\Str;
 class Application extends Container
 {
 
+    /**
+     * @var boolean Application boot state
+     */
     protected $booted = false;
 
+    /**
+     * @var array Registered service providers
+     */
     protected $serviceProviders = [];    
-
 
     /**
      * Directory to the root wordpres installation
@@ -25,8 +30,12 @@ class Application extends Container
      */
     protected $basePath;
 
+    /**
+     * @var array
+     */
     protected $bootstrappers = [
         \EvolveEngine\Core\Bootstrap\LoadConfiguration::class,
+        \EvolveEngine\Core\Bootstrap\HandleExceptions::class,
         \EvolveEngine\Core\Bootstrap\ConsumeRequest::class,
         \EvolveEngine\Core\Bootstrap\RegisterFacades::class,
         \EvolveEngine\Core\Bootstrap\RegisterProviders::class,
