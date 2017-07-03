@@ -56,7 +56,11 @@ class TrueLib
         $excerpt = strip_tags($excerpt);
         $excerpt = substr($excerpt, 0, $count);
         $excerpt = substr($excerpt, 0, strripos($excerpt, " "));
-        $excerpt = $excerpt .'...';
+        
+        if(strlen($excerpt) > 0 ) {
+            $excerpt = $excerpt .'...';
+        }
+
         if($link) {
             $excerpt = $excerpt .'<a href="'.$permalink.'">more</a>';
         }
