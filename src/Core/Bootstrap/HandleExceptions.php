@@ -31,8 +31,17 @@ class HandleExceptions
             return;
         }
 
+        // On Debug mode we buffer the entire output
+        // and clean it up in case of exception
+        ob_start();
+
         $run     = new \Whoops\Run;
         $handler = new PrettyPageHandler;
+
+        $run->pushHandler(function() {
+            // Clear all output and only show PrettyPageHandler output
+            ob_clean();
+        });
 
         // Set the title of the error page:
         $handler->setPageTitle("Whoops! There was a problem.");
