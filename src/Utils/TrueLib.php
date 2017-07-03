@@ -49,14 +49,17 @@ class TrueLib
      * @param  integer $count [Number of characters to show]
      * @return [type]         [Trimmed string]
      */
-    public function getTheExcerpt($count = 100)
+    public function getTheExcerpt($count = 100, $link = true)
     {
         $permalink = get_permalink();
         $excerpt = strip_shortcodes(get_the_content());
         $excerpt = strip_tags($excerpt);
         $excerpt = substr($excerpt, 0, $count);
         $excerpt = substr($excerpt, 0, strripos($excerpt, " "));
-        $excerpt = $excerpt.'... <a href="'.$permalink.'">more</a>';
+        $excerpt = $excerpt .'...';
+        if($link) {
+            $excerpt = $excerpt .'<a href="'.$permalink.'">more</a>';
+        }
         return $excerpt;
     }
 
