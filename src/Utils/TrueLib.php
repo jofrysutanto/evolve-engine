@@ -149,49 +149,48 @@ class TrueLib
         $id = get_the_ID();
         extract($args);
 
-        if($acf)
-        {
-            if($subfield)
-            {
+        if($acf) {
+            if($subfield) {
                 $image = get_sub_field($name);
             } else {
-
               $image = get_field($name, $id);
             }
 
-              //If we have an image, display it!
+            // Fall back time!
+            if(is_numeric($image)) {
+                $image = acf_get_attachment($image);
+            }
+
+            //If we have an image, display it!
             if($image) {
-                if($size != '')
-                {
+                if($size != '') {
                     $imageURL = $image['sizes'][$size];
                 } else {
                     $imageURL = $image['url'];
                 }
 
                 $str = '<img ';
-                if($class != '')
-                {
+                if($class != '') {
                     $str .= 'class="' . $class . '"';
                 }
 
                 return $str . ' src="' . $imageURL . '" alt="' . $image['alt'] . '">';
             }
-          } else {
-              if($retina)
-              {
-                  $class .= ' retina-image';
-              }
+        } else {
+            if($retina) {
+                $class .= ' retina-image';
+            }
 
-              $str = '<img ';
-              if($class != '')
-              {
-                  $str .= 'class="' . trim($class) . '"';
+            $str = '<img ';
+            if($class != '') {
+                $str .= 'class="' . trim($class) . '"';
+            }
+            
+            return  $str . ' src="' . self::getImageUrl($url) . '" alt="' . $alt  . '">';
+        }
 
-              }
-              return  $str . ' src="' . self::getImageUrl($url) . '" alt="' . $alt  . '">';
-          }
-          return '';
-      }
+        return '';
+    }
 
 
     /* Get Image with ACF
