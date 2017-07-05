@@ -107,7 +107,9 @@ abstract class WordpressBase
      */
     protected function determineCallableInstance($action)
     {
-        if ($pos = strpos($action, '@')) {
+        if ($action instanceof \Closure) {
+            return $action;
+        } else if ($pos = strpos($action, '@')) {
             list($instance, $method) = explode('@', $action);
         } else {
             $instance = $this->alias;
