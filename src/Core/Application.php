@@ -113,7 +113,7 @@ class Application extends Container
     /**
      * Start the engine
      *
-     * @return void
+     * @return $this
      */
     public function start()
     {
@@ -123,7 +123,7 @@ class Application extends Container
             $bootstrapper->bootstrap($this);
         }
 
-        $providers = $this->config['app.providers'];
+        return $this;
     }
 
     /**
@@ -136,6 +136,7 @@ class Application extends Container
         static::setInstance($this);
         $this->instance('app', $this);
         $this->instance('Illuminate\Container\Container', $this);
+        $this->instance('Illuminate\Contracts\Container\Container', $this);
         $this->instance('path.lang', $this->langPath());
         $this->instance('path.config', $this->configPath());
     }
@@ -193,10 +194,31 @@ class Application extends Container
         }
     }
 
+    /**
+     * Boot the applicatio and its registered providers
+     *
+     * @return void
+     */
     public function boot()
     {
         array_walk($this->serviceProviders, function ($p) {
             $this->bootProvider($p);
+        });
+    }
+
+    /**
+     * Register reach providers' console commands
+     *
+     * @param ConsoleApplication $console
+     *
+     * @return void
+     */
+    public function registerProviderCommands($console)
+    {
+        array_walk($this->serviceProviders, function ($p) use($console) {
+            if (method_exists($p, 'registerCommands')) {
+                $p->registerCommands($console);
+            }
         });
     }
 

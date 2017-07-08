@@ -12,6 +12,13 @@ abstract class ServiceProvider
     protected $app;
 
     /**
+     * Commands registered by service provider
+     *
+     * @var array
+     */
+    protected $commands =  [];
+
+    /**
      * Create a new service provider instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
@@ -28,5 +35,23 @@ abstract class ServiceProvider
      * @return void
      */
     abstract public function register();
+
+    /**
+     * Commands registered by service provider
+     * 
+     * @param ConsoleApplication $console
+     *
+     * @var array
+     */
+    public function registerCommands($console) 
+    {
+        if (!$this->commands) {
+            return;   
+        }
+        foreach ($this->commands as $command) {
+            $instance = $this->app->make($command);
+            $console->add($instance);
+        }
+    }
 
 }
