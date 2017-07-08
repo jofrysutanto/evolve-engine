@@ -39,7 +39,7 @@ class QueueListener extends Command
                     $job->release();
                 }
             }
-            sleep(1);
+            sleep(2);
         }
     }
 
