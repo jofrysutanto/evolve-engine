@@ -85,7 +85,9 @@ class SqsQueue extends AbstractQueue
         try {
             // Receive a message from the queue
             $result = $this->sqs_client->receiveMessage(array(
-                'QueueUrl' => $this->url
+                'QueueUrl'            => $this->url,
+                'MaxNumberOfMessages' => 1,
+                'WaitTimeSeconds'     => 20, // Enables long polling
             ));
 
             if ($result['Messages'] == null) {
