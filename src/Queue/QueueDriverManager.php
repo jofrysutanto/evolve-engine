@@ -1,6 +1,7 @@
 <?php
 namespace EvolveEngine\Queue;
 
+use EvolveEngine\Queue\Services\SyncQueue;
 use EvolveEngine\Queue\Services\SqsQueue;
 use Illuminate\Support\Manager;
 
@@ -33,6 +34,16 @@ class QueueDriverManager extends Manager
 
         $queue = new SqsQueue($url, $configurations);
         return $queue;
+    }
+
+    /**
+     * Create new sync driver
+     *
+     * @return Queue
+     */
+    public function createSyncDriver()
+    {
+        return new SyncQueue();
     }
 
 }

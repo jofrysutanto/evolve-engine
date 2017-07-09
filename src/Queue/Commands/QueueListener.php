@@ -27,7 +27,7 @@ class QueueListener extends Command
     public function handle()
     {
         $queue = app('queue');
-        $this->info("Queue is starting..");
+        $this->info("Queue has started..");
         while (true) {
             if ($job = $queue->poll()) {
                  $this->info("Processing message");
