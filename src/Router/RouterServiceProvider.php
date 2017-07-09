@@ -26,8 +26,8 @@ class RouterServiceProvider extends ServiceProvider
 
         $this->registerRouteFile($this->routesFile);
 
-        $this->app->action('init',       'router@onInit',   50);
-        $this->app->action('wp_loaded',  'router@onWpLoad'. 50);
+        $this->app->action('init',       'router@onInit',    50);
+        $this->app->action('wp_loaded',  'router@onWpLoad',  50);
     }
 
     /**
