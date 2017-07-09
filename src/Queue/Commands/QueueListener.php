@@ -33,7 +33,7 @@ class QueueListener extends Command
                  $this->info("Processing message");
                 try {
                     $job->handle();
-                    $this->success(get_class() . " : Queue processed");
+                    $this->success(get_class($job) . " : Queue processed");
                 } catch (\Exception $e) {
                     $this->error($e->getMessage());
                     $job->release();
