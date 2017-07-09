@@ -107,22 +107,11 @@ abstract class WordpressBase
      */
     protected function determineCallableInstance($action)
     {
-        if ($action instanceof \Closure) {
-            return $action;
-        } else if ($pos = strpos($action, '@')) {
-            list($instance, $method) = explode('@', $action);
-        } else {
-            $instance = $this->alias;
-            $method   = $action;
+        if (is_string($action) && !strpos($action, '@')) {
+            $action = $this->alias . '@' . $action;
         }
 
-        // Determine action
-        if (!$this->app->bound($instance)) {
-            throw new \Exception("Unable to resolve $instance in Container");
-        }
-
-        $instance = $this->app->make($instance);
-        return [$instance, $method];
+        return $this->app->determineCallableInstance($action);
     }
 
 }

@@ -242,7 +242,12 @@ class Application extends Container
      */
     public function filter($type, $action, $priority = null, $acceptedArgs = 1)
     {
-        return add_filter($type, $this->determineCallableInstance($action), $priority, $acceptedArgs);
+        if (!is_array($action)) {
+            $action = [$action];
+        }
+        foreach ($action as $actionMethod) {
+            add_filter($type, $this->determineCallableInstance($actionMethod), $priority, $acceptedArgs);
+        }
     }
 
     /**
@@ -250,9 +255,14 @@ class Application extends Container
      *
      * @return void
      */
-    public function action($type, $action)
+    public function action($type, $action , $priority = null, $acceptedArgs = 1)
     {
-        return add_action($type, $this->determineCallableInstance($action));
+        if (!is_array($action)) {
+            $action = [$action];
+        }
+        foreach ($action as $actionMethod) {
+            add_action($type, $this->determineCallableInstance($actionMethod), $priority, $acceptedArgs);
+        }
     }
 
     /**
@@ -275,11 +285,13 @@ class Application extends Container
      *
      * @return array
      */
-    protected function determineCallableInstance($action)
+    public function determineCallableInstance($action)
     {
-        if ($pos = strpos($action, '@')) {
-            list($instance, $method) = explode('@', $action);
+        if ($action instanceof \Closure) {
+            return $action;
         }
+
+        list($instance, $method) = explode('@', $action);
 
         // Determine action
         if (!$this->bound($instance)) {

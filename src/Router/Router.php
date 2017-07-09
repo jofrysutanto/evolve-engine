@@ -394,8 +394,6 @@ class Router
             $action['uses'] = $this->prependGroupUses($action['uses']);
         }
 
-        // Here we apply grouped 'on' event, while respecting individual 'on' 
-        // on each route.
         if (! empty($this->groupStack) && !isset($action['on'])) {
             $action['on'] = $this->getGroupOn();
         }
