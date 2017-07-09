@@ -8,6 +8,7 @@ composer.phar
 # IDE Specifics
 .idea
 .phpintel
+.vscode
 
 # Logs
 php_errors.log

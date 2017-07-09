@@ -168,6 +168,10 @@ class Router
             unset($old['domain']);
         }
 
+        if (isset($new['on'])) {
+            unset($old['on']);
+        }
+
         $new['where'] = array_merge(
             isset($old['where']) ? $old['where'] : [],
             isset($new['where']) ? $new['where'] : []
@@ -283,6 +287,20 @@ class Router
     }
 
     /**
+     * Retrieve grouped event 'on'
+     *
+     * @return string
+     */
+    protected function getGroupOn()
+    {
+        $group = end($this->groupStack);
+
+        return isset($group['on'])
+            ? $group['on']
+            : null;
+    }
+
+    /**
      * Bind router into wordpress's action cycle,
      * which gives router the opportunity to intercept the timeline,
      * allowing custom action and returning custom response
@@ -376,6 +394,10 @@ class Router
             $action['uses'] = $this->prependGroupUses($action['uses']);
         }
 
+        if (! empty($this->groupStack) && !isset($action['on'])) {
+            $action['on'] = $this->getGroupOn();
+        }
+
         // Here we will set this controller name on the action array just so we always
         // have a copy of it for reference if we need it. This can be used while we
         // search for a controller name or do some other type of fetch operation.
@@ -398,16 +420,6 @@ class Router
     }
 
     /**
-     * Get all registered routes
-     *
-     * @return array
-     */
-    public function getRoutes()
-    {
-        return $this->routes;
-    }
-
-    /**
      * Wordpress action hook
      * Trigger registered routes at wordpress 'wp_loaded' action
      *
@@ -418,6 +430,16 @@ class Router
         if ($route = $this->runAvailableRoutesFor('wp_loaded')) {
             return $this->assessResponse($route->runAction());
         }
+    }
+
+    /**
+     * Get all registered routes
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
     }
 
     /**
