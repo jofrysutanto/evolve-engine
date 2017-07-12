@@ -236,3 +236,18 @@ if (! function_exists('fluent')) {
         return new Illuminate\Support\Fluent($object);
     }
 }
+
+if(!function_exists('strip_wp_slashes')) {
+    function strip_wp_slashes($array) {
+
+        $newArray = $array;
+
+        foreach($newArray as &$item) {
+            if(is_string($item)) {
+                $item = stripslashes($item);
+            }
+        }
+
+        return $newArray;
+    }
+}
