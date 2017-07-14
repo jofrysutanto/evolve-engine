@@ -1,7 +1,7 @@
 <?php
 namespace EvolveEngine\Queue;
 
-use EvolveEngine\Queue\Services\EmptyQueue;
+use EvolveEngine\Queue\Services\BlackholeQueue;
 use EvolveEngine\Queue\Services\SqsQueue;
 use EvolveEngine\Queue\Services\SyncQueue;
 use Illuminate\Support\Manager;
@@ -56,7 +56,7 @@ class QueueDriverManager extends Manager
      */
     public function createBlackholeDriver()
     {
-        return new EmptyQueue();
+        return new BlackholeQueue();
     }
 
 }
