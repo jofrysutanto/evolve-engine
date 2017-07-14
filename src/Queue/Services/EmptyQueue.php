@@ -4,7 +4,7 @@ namespace EvolveEngine\Queue\Services;
 use EvolveEngine\Queue\QueueJob;
 use Exception;
 
-class SyncQueue extends AbstractQueue
+class EmptyQueue extends AbstractQueue
 {
 
     /**
@@ -17,12 +17,7 @@ class SyncQueue extends AbstractQueue
      */
     public function push($job, $params = [])
     {
-        $job = with(new QueueJob($this))
-            ->setId(microtime())
-            ->setParams($params)
-            ->setHandler($job);
-
-        return $job->handle();
+        return;
     }
 
     /**

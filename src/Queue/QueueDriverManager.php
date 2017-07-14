@@ -1,8 +1,9 @@
 <?php
 namespace EvolveEngine\Queue;
 
-use EvolveEngine\Queue\Services\SyncQueue;
+use EvolveEngine\Queue\Services\EmptyQueue;
 use EvolveEngine\Queue\Services\SqsQueue;
+use EvolveEngine\Queue\Services\SyncQueue;
 use Illuminate\Support\Manager;
 
 class QueueDriverManager extends Manager
@@ -44,6 +45,18 @@ class QueueDriverManager extends Manager
     public function createSyncDriver()
     {
         return new SyncQueue();
+    }
+
+    /**
+     * Create new empty Queue.
+     * This queue immediately discards tasks pushed to it
+     * without running any handler.
+     *
+     * @return Queue
+     */
+    public function createEmptyDriver()
+    {
+        return new EmptyQueue();
     }
 
 }
