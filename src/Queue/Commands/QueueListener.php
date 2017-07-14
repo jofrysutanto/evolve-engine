@@ -20,9 +20,9 @@ class QueueListener extends Command
     protected $description = 'Run the queue worker';
 
     /**
-     *
+     * Run the listener
      * 
-     * @return
+     * @return void
      */
     public function handle()
     {

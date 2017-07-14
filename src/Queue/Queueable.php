@@ -5,14 +5,11 @@ abstract class Queueable
 {
 
     /**
-     * Serialisable data
+     * Handle this task - which should call either `delete` on $job 
+     * once the task is completed, or `release` to push the job back to the queue.
      *
-     * @var array
-     */
-    protected $data = [];
-
-    /**
-     * Handle this task
+     * @param Job    $job
+     * @param array  $params Parameters to this task
      *
      * @return void
      */

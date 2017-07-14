@@ -8,7 +8,8 @@ class RouterServiceProvider extends ServiceProvider
 {
 
     /**
-     * Routes file location
+     * Routes file location, 
+     * relative to project root path
      *
      * @var string
      */
