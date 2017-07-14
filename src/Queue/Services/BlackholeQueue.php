@@ -4,7 +4,7 @@ namespace EvolveEngine\Queue\Services;
 use EvolveEngine\Queue\QueueJob;
 use Exception;
 
-class EmptyQueue extends AbstractQueue
+class BlackholeQueue extends AbstractQueue
 {
 
     /**
