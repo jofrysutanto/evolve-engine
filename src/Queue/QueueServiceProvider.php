@@ -13,7 +13,8 @@ class QueueServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        Commands\QueueListener::class  
+        Commands\QueueListener::class,
+        Commands\StopQueue::class,
     ];
 
     /**
