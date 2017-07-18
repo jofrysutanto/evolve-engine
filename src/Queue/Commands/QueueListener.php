@@ -20,17 +20,25 @@ class QueueListener extends Command
     protected $description = 'Run the queue worker';
 
     /**
-     * Run the listener
+     *
      * 
-     * @return void
+     * @return
      */
     public function handle()
     {
         $queue = app('queue');
         $this->info("Queue has started..");
+        $stopFile = get_template_directory().'/restart-queue.txt';
+
         while (true) {
+            if (file_exists($stopFile)) {
+                unlink($stopFile);
+                $this->info("Queue has been stopped");
+                exit(1);
+            }
+
             if ($job = $queue->poll()) {
-                 $this->info("Processing message");
+                $this->info("Processing message");
                 try {
                     $job->handle();
                     $this->success(get_class($job) . " : Queue processed");
@@ -42,5 +50,4 @@ class QueueListener extends Command
             sleep(2);
         }
     }
-
 }
