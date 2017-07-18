@@ -218,6 +218,10 @@ class TrueLib
                 $image = get_field($name, $id);
             }
 
+            // Fall back time!
+            if(is_numeric($image)) {
+                $image = acf_get_attachment($image);
+            }
 
             if($image)
             {
