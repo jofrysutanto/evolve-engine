@@ -18,7 +18,9 @@
         "illuminate/config": "5.1.*",
         "illuminate/http": "5.1.*",
         "symfony/var-dumper": "^3.1",
-        "october/router": "^1.0"
+        "october/router": "^1.0",
+        "filp/whoops": "^2.1",
+        "symfony/console": "^3.3"
     },
     "autoload": {
         "psr-4": {
