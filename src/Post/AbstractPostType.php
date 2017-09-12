@@ -224,5 +224,18 @@ abstract class AbstractPostType
             'post__in' => $ids
         ]);
     }
+
+    /**
+     * Get Posts
+     *
+     * @return Array
+     */
+    public function get()
+    {
+        return get_posts([
+            'post_type' => $this->id,
+            'status' => 'publish'
+        ]);
+    }
     
 }
