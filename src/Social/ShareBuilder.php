@@ -29,10 +29,12 @@ class ShareBuilder
      * Render share widget for given key
      *
      * @param  string $name 
+     * @param  string|null $title  (Optional) Can be inferred using resolver
+     * @param  string|null $url    (Optional) Can be inferred using resolver
      *
      * @return string
      */
-    public function render($name = 'default')
+    public function render($name = 'default', $title = null, $url = null)
     {
         $shareConfig = array_get($this->config, $name);
         if (!$shareConfig) {
@@ -43,7 +45,7 @@ class ShareBuilder
             $services = array_get($shareConfig, 'services', []);
             $customResolver = array_get($shareConfig, 'custom_resolver');
 
-            $this->cache[$name] = $this->buildShareServices($services, $customResolver);
+            $this->cache[$name] = $this->buildShareServices($services, $customResolver, $title, $url);
         }
 
         $shareable = $this->cache[$name];
@@ -57,16 +59,18 @@ class ShareBuilder
      *
      * @param  array  $services
      * @param  array|null  $customResolver Custom resolver
+     * @param  string|null $title  (Optional) Can be inferred using resolver
+     * @param  string|null $url    (Optional) Can be inferred using resolver
      *
      * @return Collection
      */
-    protected function buildShareServices($services, $customResolver = null)
+    protected function buildShareServices($services, $customResolver = null, $title = null, $url = null)
     {
         $shareable = [];
         foreach ($services as $service) {
             $shareService = new \Illuminate\Support\Fluent([
                 'service' => $service,
-                'url'     => $this->resolveServiceUrl($service, $customResolver)
+                'url'     => $this->resolveServiceUrl($service, $customResolver, $title, $url)
             ]);
             $shareable[] = $shareService;
         }
@@ -79,18 +83,30 @@ class ShareBuilder
      *
      * @param  string     $serviceName Key name of service
      * @param  array|null $customResolver Custom resolver
+     * @param  string|null $title  (Optional) Can be inferred using resolver
+     * @param  string|null $url    (Optional) Can be inferred using resolver
      *
      * @return string
      */
-    protected function resolveServiceUrl($serviceName, $customResolver = null)
+    protected function resolveServiceUrl($serviceName, $customResolver = null, $title = null, $url = null)
     {
-        if (is_null($customResolver)) {
+        if (!is_null($title) && !is_null($url)) {
+            $shareUrl   = $url;
+            $shareTitle = $title;
+        }
+        else if (is_null($customResolver)) {
             $shareUrl   = app('request')->fullUrl();
             $shareTitle = function_exists('get_the_title');
         }
         else if (is_array($customResolver)) {
             $shareTitle = array_get($customResolver, 'title');
             $shareUrl = array_get($customResolver, 'url');
+        }
+        else if (is_string($customResolver) && strpos($customResolver, '@') !== false) {
+            list($class, $method) = explode('@', $customResolver);
+            $result = app($class)->{$method}();
+            $shareTitle = array_get($result, 'title');
+            $shareUrl = array_get($result, 'url');
         }
 
         /**
