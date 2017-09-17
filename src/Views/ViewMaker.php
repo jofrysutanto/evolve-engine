@@ -28,9 +28,11 @@ class ViewMaker {
      * @return void
      */
     public function render($templateName, $extraVars = array(), $overrideRoot = false) {
-        $path = $overrideRoot ?
-            $templateName . '.php' :
-            $this->viewRoot . $templateName . '.php';
+        $path = $this->getPath($templateName . '.php', $overrideRoot);
+        $yamlPath = $this->getPath($templateName . '.yaml', $overrideRoot);
+        if (file_exists($yamlPath)) {
+            $extraVars = $this->processYamlVariables($yamlPath, $extraVars);
+        }
 
         $this->load($path, $extraVars);
     }
@@ -45,10 +47,11 @@ class ViewMaker {
      * @return string
      */
     public function make($templateName, $extraVars = array(), $overrideRoot = false) {
-
-        $path = $overrideRoot ?
-            $templateName . '.php' :
-            $this->viewRoot . $templateName . '.php';
+        $path = $this->getPath($templateName . '.php', $overrideRoot);
+        $yamlPath = $this->getPath($templateName . '.yaml', $overrideRoot);
+        if (file_exists($yamlPath)) {
+            $extraVars = $this->processYamlVariables($yamlPath, $extraVars);
+        }
 
         ob_start();
 
@@ -70,13 +73,11 @@ class ViewMaker {
          * Locate Template ensure we can still use our variables in the template files
          * @see http://keithdevon.com/passing-variables-to-get_template_part-in-wordpress/
          */
-
         if (count($this->vars) > 0) {
             extract($this->vars);
         }
 
         // Extra vars which can be passed from anywhere to the template
-
         if (count($extraVars) > 0) {
             extract($extraVars);
         }
@@ -124,9 +125,7 @@ class ViewMaker {
      */
     public function exists($templateName, $overrideRoot = false)
     {
-        $path = $overrideRoot ?
-            $templateName . '.php' :
-            $this->viewRoot . $templateName . '.php';
+        $path = $this->getPath($templateName . '.php', $overrideRoot);
 
         return file_exists($path);
     }
@@ -156,6 +155,43 @@ class ViewMaker {
     public function vars()
     {
         return $this->vars;
+    }
+
+    /**
+     * Get path to template file
+     *
+     * @param  string  $relativePath
+     * @param  boolean $overrideRoot  If overriden, assume $relativePath is absolute path
+     *
+     * @return string
+     */
+    protected function getPath($relativePath, $overrideRoot = false)
+    {
+        $path = $overrideRoot ?
+            $relativePath :
+            $this->viewRoot . $relativePath;
+
+        return $path;
+    }
+
+    /**
+     * Parse YAMl config at given $path to merge values into $vars
+     *
+     * @param  string $path
+     * @param  array  $vars
+     *
+     * @return array
+     */
+    protected function processYamlVariables($path, $vars)
+    {
+        $parser = new \Symfony\Component\Yaml\Parser;
+        $varConfig = $parser->parse(file_get_contents($path));
+        $fields = array_get($varConfig, 'fields');
+        if (!$fields) {
+            return;
+        }
+        $vars = with(new ParamsFactory($fields))->parse($vars);
+        return $vars;
     }
 
 }
