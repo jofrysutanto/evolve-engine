@@ -86,14 +86,12 @@ class PostTypeFactory
     public function includeTemplate($template_path)
     {
         $postType = get_post_type();
-
         if (is_search()) {
             return $template_path;
         }
         
         if (in_array(get_post_type(), array_keys($this->resolvedTypes))) {
             $post = $this->get($postType);
-
             $templateType = null;
             if (is_single()) {
                 $templateType = 'single';
@@ -101,7 +99,6 @@ class PostTypeFactory
             if (is_archive()) {
                 $templateType = 'archive';
             }
-
             if ( $path = $post->getTemplatePath($templateType) ) {
                 $template_path = $path;
             }

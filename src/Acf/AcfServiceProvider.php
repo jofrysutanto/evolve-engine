@@ -46,6 +46,7 @@ class AcfServiceProvider extends ServiceProvider
         $this->app->instance('acf-extensions', $extender);
         $this->app->action('acf/include_field_types', 'acf-extensions@register');
         $this->app->action('acf/input/admin_head', 'acf-extensions@seamlessContentFields');
+        $this->app->action('wp_loaded', 'acf-extensions@addArchiveOptionsPage');
 
         // Aliasing acf helper
         $this->app->instance('acf-helper', AcfHelper::instance());
