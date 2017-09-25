@@ -85,25 +85,32 @@ class PostTypeFactory
      */
     public function includeTemplate($template_path)
     {
-        $postType = get_post_type();
         if (is_search()) {
             return $template_path;
         }
-        
-        if (in_array(get_post_type(), array_keys($this->resolvedTypes))) {
-            $post = $this->get($postType);
-            $templateType = null;
-            if (is_single()) {
-                $templateType = 'single';
-            }
-            if (is_archive()) {
-                $templateType = 'archive';
-            }
-            if ( $path = $post->getTemplatePath($templateType) ) {
-                $template_path = $path;
-            }
+
+        $postType = get_post_type();
+        // get_post_type() can sometimes be unreliable
+        // another attempt is to look for in get_query_var
+        if (!is_string($postType)) {
+            $postType = get_query_var('post_type');
         }
         
+        if (!in_array($postType, array_keys($this->resolvedTypes))) {
+            return $template_path;
+        }
+        
+        $post = $this->get($postType);
+        $templateType = null;
+        if (is_single()) {
+            $templateType = 'single';
+        }
+        if (is_archive()) {
+            $templateType = 'archive';
+        }
+        if ( $path = $post->getTemplatePath($templateType) ) {
+            $template_path = $path;
+        }
         return $template_path;
     }
 
