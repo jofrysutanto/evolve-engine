@@ -105,7 +105,9 @@ class AnalyticsManager
      */
     public function renderGoogleAnalytics() {
         foreach ($this->config['services']['google-analytics'] as $configValue) {
-            echo $this->renderSingleGoogleAnalytics($configValue);
+            if(!empty($configValue)) {
+                echo $this->renderSingleGoogleAnalytics($configValue);
+            }
         }
     }
 
@@ -117,12 +119,16 @@ class AnalyticsManager
     public function renderGoogleTagManager($isHead = true) {
         if ($isHead) {
             foreach ($this->config['services']['google-tag-manager'] as $configValue) {
-                echo $this->renderSingleGoogleTagManager($configValue);
+                if(!empty($configValue)) {
+                    echo $this->renderSingleGoogleTagManager($configValue);
+                }
             }
         }
         else {
             foreach ($this->config['services']['google-tag-manager'] as $configValue) {
-                echo $this->renderSingleGoogleTagManagerNoScript($configValue);
+                if(!empty($configValue)) {
+                    echo $this->renderSingleGoogleTagManagerNoScript($configValue);
+                }
             }
         }
     }
