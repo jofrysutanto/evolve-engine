@@ -315,6 +315,10 @@ class AdminStyles
     {
         $cachePath = base_path('announcement.json');
         $feedUrl = config('theme.announcement');
+        if (!$feedUrl) {
+            // Default url
+            $feedUrl = 'https://trueagency.com.au/dash-announcement.php';
+        }
         $announcement = new DashboardAnnouncement(
             $cachePath,
             $feedUrl
