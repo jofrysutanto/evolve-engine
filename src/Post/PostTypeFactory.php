@@ -85,7 +85,7 @@ class PostTypeFactory
      */
     public function includeTemplate($template_path)
     {
-        if (is_search()) {
+        if (is_search() || is_404()) {
             return $template_path;
         }
 
