@@ -313,8 +313,18 @@ class AdminStyles
      */
     public function brandDashboard()
     {
-        $trueSettingsDir = plugins_url() . '/trueagency-options/modules/true-settings';
-        echo '<div class="true_widget_logo" style="float:left; width:190px;"><a href="http://www.trueagency.com.au"><img alt="True Agency" src="' . $trueSettingsDir . '/images/logo.png" /></a></div><div class="true_widget_detail" style="font-family:helvetica;min-height:170px;"><strong>Welcome to your Dashboard</strong><br/><br/>For support, please contact us by emailing <a href="mailto:support@trueagency.com.au">support@trueagency.com.au</a> or calling 03 9529 1850. Please note that support for any plugins/extensions/code not implemented by True Agency will be quoted separately.<br/><br/><a href="http://www.trueagency.com.au">True Agency</a> specialise in websites, ecommerce and mobile apps.</div>';  
+        $cachePath = base_path('announcement.json');
+        $feedUrl = config('theme.announcement');
+        if (!$feedUrl) {
+            // Default url
+            $feedUrl = 'https://trueagency.com.au/dash-announcement.php';
+        }
+        $announcement = new DashboardAnnouncement(
+            $cachePath,
+            $feedUrl
+        );
+        $output = $announcement->getAnnouncement();
+        echo $output;
     }
 }
 
