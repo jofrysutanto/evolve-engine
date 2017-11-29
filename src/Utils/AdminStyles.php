@@ -235,7 +235,7 @@ class AdminStyles
             .acf-field.acf-field-image.acf-banner-image .acf-image-uploader.has-value {
                 min-height: 100px;
             }
-            .acf-field.acf-field-image.acf-banner-image .view.show-if-value {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value {
                 position: absolute;
                 z-index: 100;
                 height: auto;
@@ -247,7 +247,7 @@ class AdminStyles
                 -o-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
                 transition: height .32s ease, max-height .32s ease, box-shadow .32s ease
             }
-            .acf-field.acf-field-image.acf-banner-image .view.show-if-value img {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value img {
                 -webkit-transform: translate(0, -30px);
                 -ms-transform: translate(0, -30px);
                 -o-transform: translate(0, -30px);
@@ -256,7 +256,7 @@ class AdminStyles
                 -o-transition: transform .32s ease;
                 transition: transform .32s ease
             }
-            .acf-field.acf-field-image.acf-banner-image .view.show-if-value:after {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value:after {
                 content: '';
                 position: absolute;
                 height: 20px;
@@ -273,19 +273,19 @@ class AdminStyles
                 -o-transition: opacity .01s linear .32s;
                 transition: opacity .01s linear .32s
             }
-            .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value:hover {
                 max-height: 470px;
                 -webkit-box-shadow: 1px 3px 12px rgba(0, 0, 0, .45);
                 box-shadow: 1px 3px 12px rgba(0, 0, 0, .45)
                 z-index: 1000;
             }
-            .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover img {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value:hover img {
                 -webkit-transform: translate(0, 0);
                 -ms-transform: translate(0, 0);
                 -o-transform: translate(0, 0);
                 transform: translate(0, 0)
             }
-            .acf-field.acf-field-image.acf-banner-image .view.show-if-value:hover:after {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value:hover:after {
                 opacity: 0;
                 filter: alpha(opacity=0);
                 -webkit-transition: opacity .01s;
