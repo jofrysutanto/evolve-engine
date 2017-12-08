@@ -240,6 +240,7 @@ class AdminStyles
                 z-index: 100;
                 height: auto;
                 max-height: 100px;
+                max-width: 100% !important;
                 overflow: hidden;
                 -webkit-box-shadow: 1px 3px 12px transparent;
                 box-shadow: 1px 3px 12px transparent;
