@@ -79,6 +79,8 @@ class TrueLib
             return;
         }
 
+        $faPrefix = env('FONT_AWESOME_VERSION', 'fa');
+
         while(has_sub_field('social_accounts', 'option')) {  
             $type = get_sub_field('account_type');
             $url  = get_sub_field('account_url');
@@ -87,13 +89,13 @@ class TrueLib
             }
 
             $iconType = $type;
-            if ($type == 'youtube') {
+            if ($type == 'youtube' && $faPrefix == 'fa') {
                 $iconType = 'youtube-play';
             }
             ?>
             <li class="social-<?= $type ?>">
                 <a href="<?=$url?>" class="social-button <?=$type?>" target="_blank" title="<?= ucfirst($type) ?>">
-                    <i class="fa fa-<?= $iconType ?> <?= $iconModifier ?>"></i>
+                    <i class="<?=$faPrefix?> fa-<?= $iconType ?> <?= $iconModifier ?>"></i>
                 </a>
             </li>
             <?php
