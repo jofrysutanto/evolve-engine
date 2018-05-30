@@ -248,6 +248,17 @@ class TrueLib
         $pages_children = get_pages('child_of='.$post_id.'&hierarchical=0&parent='.$post_id.'&sort_column=menu_order');
         return $pages_children;
     }
+    
+    /**
+     * Get SVG
+     *
+     * @param String $filename
+     * @return String
+     */
+    public function getSVG($filename)
+    {
+        return file_get_contents(get_template_directory() . '/assets/img/icons/' . $filename . '.svg');
+    }
 
     /**
      * Debug utilities
