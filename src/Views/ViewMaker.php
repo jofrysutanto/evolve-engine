@@ -105,10 +105,10 @@ class ViewMaker {
                 }
                 </style>
                 <div class="view-err-container">
-                    <?php if (defined(WP_DEBUG) && WP_DEBUG === true): ?>
-                    <h5 class="view-err"><strong>Missing template</strong></h5>
-                    <?php else: ?>
+                    <?php if (defined('WP_DEBUG') && WP_DEBUG === true): ?>
                     <h5 class="view-err"><strong>Error</strong>: Template <strong><?= $path ?></strong> is not found or cannot be loaded.</h5>
+                    <?php else: ?>
+                    <h5 class="view-err"><strong>Missing template</strong></h5>
                     <?php endif ?>
                 </div>
             <?php
