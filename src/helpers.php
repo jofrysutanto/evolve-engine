@@ -251,3 +251,10 @@ if(!function_exists('strip_wp_slashes')) {
         return $newArray;
     }
 }
+
+if (!function_exists('get_blog_url')) {
+    function get_blog_url()
+    {
+        return get_permalink(get_option('page_for_posts'));
+    }
+}
