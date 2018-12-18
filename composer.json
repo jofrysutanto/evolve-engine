@@ -20,10 +20,10 @@
         "illuminate/config": "5.1.*",
         "illuminate/http": "5.1.*",
         "symfony/var-dumper": "^3.1",
-        "october/rain": "~1.0.419",
+        "october/rain": "1.0.399",
         "filp/whoops": "^2.1",
         "symfony/console": "^3.3",
-        "symfony/yaml": "^3.3"
+        "symfony/yaml": "^3.0"
     },
     "autoload": {
         "psr-4": {
