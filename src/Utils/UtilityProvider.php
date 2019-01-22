@@ -32,7 +32,7 @@ class UtilityProvider extends ServiceProvider
             $this->app->filter('acf/render_field/type=message', 'adminstyles@customACFStyle', 8, 1);
             $this->app->filter('acf/render_field/type=image', 'adminstyles@customACFStyle', 8, 1);
             $this->app->filter('acf/load_field/type=image', 'adminstyles@renderSize');
-            $this->app->action( 'admin_menu', 'adminstyles@removeMetaBoxes');
+            $this->app->action( 'admin_menu', 'adminstyles@removeMetaBoxes', 100);
 
             $this->app->action('wp_dashboard_setup', 'adminstyles@addDashWidgets');
         }
