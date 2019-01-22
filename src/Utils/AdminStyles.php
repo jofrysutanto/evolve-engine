@@ -17,6 +17,7 @@ class AdminStyles
         // Hide metaboxes
         remove_meta_box('revisionsdiv', 'page', 'normal');
         remove_meta_box('commentstatusdiv', 'page', 'normal');
+        remove_meta_box('sendgrid_statistics_widget', 'dashboard', 'normal');   
     }
 
     /**
