@@ -146,7 +146,7 @@ class AnalyticsManager
             return $this->view->make('analytics/google-analytics', ['code' => $code]);
         }
 
-        return $this->view->make(__DIR__ . '/views/google-analytics', ['code' => $code], true);
+        return $this->view->makeWebRoot(__DIR__ . '/views/google-analytics', ['code' => $code]);
     }
 
     /**
@@ -162,7 +162,7 @@ class AnalyticsManager
             return $this->view->make('analytics/google-tag-manager', ['code' => $code]);
         }
 
-        return $this->view->make(__DIR__ . '/views/google-tag-manager', ['code' => $code], true);
+        return $this->view->makeWebRoot(__DIR__ . '/views/google-tag-manager', ['code' => $code], true);
     }
 
     /**
@@ -178,7 +178,7 @@ class AnalyticsManager
             return $this->view->make('analytics/google-tag-manager-no-script', ['code' => $code]);
         }
 
-        return $this->view->make(__DIR__ . '/views/google-tag-manager-no-script', ['code' => $code], true);
+        return $this->view->makeWebRoot(__DIR__ . '/views/google-tag-manager-no-script', ['code' => $code], true);
     }
 
     /**
