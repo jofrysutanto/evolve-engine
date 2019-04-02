@@ -1,15 +1,14 @@
 <?php
+
 namespace EvolveEngine\Core;
 
 use Closure;
-use EvolveEngine\Router\Router;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 use October\Rain\Support\Str;
 
 class Application extends Container
 {
-
     /**
      * @var boolean Application boot state
      */
@@ -18,7 +17,7 @@ class Application extends Container
     /**
      * @var array Registered service providers
      */
-    protected $serviceProviders = [];    
+    protected $serviceProviders = [];
 
     /**
      * Directory to the root wordpres installation
@@ -67,7 +66,7 @@ class Application extends Container
      */
     public function storagePath()
     {
-        return $this->rootPath.DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'uploads';
+        return $this->rootPath . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'uploads';
     }
 
     /**
@@ -87,7 +86,7 @@ class Application extends Container
      */
     public function configPath()
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'config';
+        return $this->basePath . DIRECTORY_SEPARATOR . 'config';
     }
 
     /**
@@ -97,7 +96,7 @@ class Application extends Container
      */
     public function langPath()
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'resources' . DIRECTORY_SEPARATOR . 'lang';
+        return $this->basePath . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'lang';
     }
 
     /**
@@ -107,7 +106,7 @@ class Application extends Container
      */
     public function viewPath()
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'templates/';
+        return $this->basePath . DIRECTORY_SEPARATOR . 'templates/';
     }
 
     /**
@@ -215,7 +214,7 @@ class Application extends Container
      */
     public function registerProviderCommands($console)
     {
-        array_walk($this->serviceProviders, function ($p) use($console) {
+        array_walk($this->serviceProviders, function ($p) use ($console) {
             if (method_exists($p, 'registerCommands')) {
                 $p->registerCommands($console);
             }
@@ -255,7 +254,7 @@ class Application extends Container
      *
      * @return void
      */
-    public function action($type, $action , $priority = null, $acceptedArgs = 1)
+    public function action($type, $action, $priority = null, $acceptedArgs = 1)
     {
         if (!is_array($action)) {
             $action = [$action];
@@ -301,5 +300,4 @@ class Application extends Container
         $instance = $this->make($instance);
         return [$instance, $method];
     }
-
 }

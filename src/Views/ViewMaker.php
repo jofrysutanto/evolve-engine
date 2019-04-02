@@ -36,6 +36,20 @@ class ViewMaker {
 
         $this->load($path, $extraVars);
     }
+    
+    /**
+     * Render Website Root
+     *
+     * @param String $path
+     * @param array $extraVars
+     * @return String
+     */
+    public function makeWebRoot($path, $extraVars = array())
+    {
+        ob_start();
+        $this->load($path . '.php', $extraVars);
+        return ob_get_clean();
+    }
 
     /**
      * Return HTML string representation of given template

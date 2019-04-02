@@ -2,11 +2,11 @@
 
 namespace EvolveEngine\Acf;
 
-use EvolveEngine\Acf\AcfHelper;
 use EvolveEngine\Core\ServiceProvider;
+use EvolveEngine\Acf\Capsule\Manager;
 
 class AcfServiceProvider extends ServiceProvider
-{   
+{
     /**
      * All extensions to be registered
      *
@@ -26,6 +26,13 @@ class AcfServiceProvider extends ServiceProvider
     {
         $this->registerExtensions();
         $this->registerAcfOptions($this->app['config']['acf.options']);
+
+        $this->app->singleton('acf.capsule', function ($app) {
+            return new Manager;
+        });
+
+        // Using our capsulated ACF
+        $this->app->action('acf/init', 'acf.capsule@register');
     }
 
     /**
@@ -61,7 +68,7 @@ class AcfServiceProvider extends ServiceProvider
      */
     protected function registerAcfOptions($opts)
     {
-        if(!function_exists('acf_add_options_page')) {
+        if (!function_exists('acf_add_options_page')) {
             return;
         }
         if (!$opts) {
@@ -77,11 +84,10 @@ class AcfServiceProvider extends ServiceProvider
                 $iconUrl = 'dashicons-admin-generic';
             }
 
-            acf_add_options_page(array(
+            acf_add_options_page([
                 'page_title' => $opt,
                 'icon_url'   => $iconUrl,
-            ));
+            ]);
         }
     }
-
 }
