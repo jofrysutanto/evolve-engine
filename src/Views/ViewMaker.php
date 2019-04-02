@@ -182,7 +182,7 @@ class ViewMaker {
     protected function getPath($relativePath, $overrideRoot = false)
     {
         $path = $overrideRoot ?
-            get_template_directory() . '/' . $relativePath :
+            $relativePath :
             $this->viewRoot . $relativePath;
 
         return $path;
