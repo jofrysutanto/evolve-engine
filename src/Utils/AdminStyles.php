@@ -1,9 +1,9 @@
 <?php
+
 namespace EvolveEngine\Utils;
 
 class AdminStyles
 {
-
     // Make sure only loaded max once
     protected static $loadedCustomACFStyle = false;
 
@@ -17,7 +17,7 @@ class AdminStyles
         // Hide metaboxes
         remove_meta_box('revisionsdiv', 'page', 'normal');
         remove_meta_box('commentstatusdiv', 'page', 'normal');
-        remove_meta_box('sendgrid_statistics_widget', 'dashboard', 'normal');   
+        remove_meta_box('sendgrid_statistics_widget', 'dashboard', 'normal');
     }
 
     /**
@@ -80,7 +80,7 @@ class AdminStyles
      *
      * Usage: [widthxheight]
      * E.g.: [300x500]
-     * 
+     *
      */
     public function renderSize($field)
     {
@@ -89,7 +89,7 @@ class AdminStyles
         if (count($matches) > 1) {
             if (count($matches[1]) > 0) {
                 $match = $matches[1][0];
-                $orig = '['.$match.']';
+                $orig = '[' . $match . ']';
 
                 $sizeArr = explode('x', $match);
                 if (count($sizeArr) !== 2) {
@@ -98,7 +98,7 @@ class AdminStyles
                 $width = $sizeArr[0];
                 $height = $sizeArr[1];
 
-                $render = '<span class="acf-recommended-size"> <span>'.$width.'px</span><span>'.$height.'px</span></span>';
+                $render = '<span class="acf-recommended-size"> <span>' . $width . 'px</span><span>' . $height . 'px</span></span>';
                 $field['instructions'] = str_replace($orig, $render, $field['instructions']);
             }
         }
@@ -108,7 +108,7 @@ class AdminStyles
 
     /**
      * Custom admin styling for login
-     * 
+     *
      * @return void
      */
     public function loginStyles()
@@ -194,16 +194,16 @@ class AdminStyles
      */
     public function customACFStyle()
     {
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+        if (defined('DOING_AJAX') && DOING_AJAX) {
             return;
         }
 
         if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
             return;
         }
-        
+
         if (!self::$loadedCustomACFStyle) {
-        ?>
+            ?>
             <style>
             .acf-field.field_type-message {
                 padding: 15px 0px 0px !important;
@@ -223,23 +223,30 @@ class AdminStyles
                 padding-top: 50px;
             }
             span.acf-recommended-size {
-                background-color: #3498db; color: #fff; position: relative; display: inline-block; z-index: 10;
-                padding: 0px 0px 0px 30px; margin-bottom: 5px;
-                line-height: 30px; height: 30px; padding-bottom: 0px;
-                -webkit-transition: padding-bottom 0.2s ease; -o-transition: padding-bottom 0.2s ease; transition: padding-bottom 0.2s ease;
+                position: absolute; 
+                top: 0; right: 0;
+                display: inline-block; z-index: 10;
+                padding: 0px 0px 0px 0px;
+                padding-bottom: 0px;
+                background-color: #fff;
+                border-radius: 6px;
+                border: 1px solid #ddd;
+                overflow: hidden;
+                /* box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); */
             }
 
-            span.acf-recommended-size:before {
+            /* span.acf-recommended-size:before {
                 position: absolute; content: '';
-                width: 30px; height: 30px;
-                background-image: url("<?= asset('img/common/icon-size.png') ?>");
+                width: 24px; height: 24px;
+                background-image: url("<?= asset('images/common/icon-size.png') ?>");
                 background-position: center center; background-repeat: no-repeat;
+                background-size: 20px 20px;
                 top: 0px; left: 0px;
-                background-color: #2980b9;
-                 -webkit-transition: padding-bottom 0.2s ease; -o-transition: padding-bottom 0.2s ease; transition: padding-bottom 0.2s ease;
-            }
+                padding-left: 6px;
+                background-color: #393939;
+            } */
 
-            @media only screen and (-webkit-min-device-pixel-ratio: 2),
+            /* @media only screen and (-webkit-min-device-pixel-ratio: 2),
             only screen and (   min--moz-device-pixel-ratio: 2),
             only screen and (     -o-min-device-pixel-ratio: 2/1),
             only screen and (        min-device-pixel-ratio: 2),
@@ -249,26 +256,31 @@ class AdminStyles
                     background-image: url("<?= asset('img/common/icon-size.png') ?>");
                     background-size: 25px 25px;
                     -webkit-background-size: 25px 25px;
+                    border-top-left-radius: 6px;
+                    border-bottom-left-radius: 6px;
                 }
-            }
+            } */
             span.acf-recommended-size > span {
-                line-height: 30px; height: 30px; width: 50px; text-align: center;
+                line-height: 24px; height: 24px; text-align: center;
+                padding-left: 6px;
+                padding-right: 6px;
+                color: #666;
                 display: inline-block; position: relative;
             }
 
-            span.acf-recommended-size > span:before {
+            /* span.acf-recommended-size > span:before {
                 position: absolute; content: 'Width';
                 line-height: 24px; height: 24px; width: 50px; text-align: center;
                 bottom: -24px; left: 0px; width: 50px;
                 background-color: #1abc9c; opacity: 0;
                 -webkit-transition: opacity 0.2s ease 0s; -o-transition: opacity 0.2s ease 0s; transition: opacity 0.2s ease 0s;
-            }
+            } */
 
-            span.acf-recommended-size > span + span {
+            /* span.acf-recommended-size > span + span {
                 background-color: #52ADEA;
-            }
+            } */
 
-            span.acf-recommended-size > span + span:before {
+            /* span.acf-recommended-size > span + span:before {
                 background-color: #37BCA1; content: 'Height';
             }
 
@@ -282,7 +294,7 @@ class AdminStyles
             span.acf-recommended-size:hover > span:before {
                 opacity: 1;
                 -webkit-transition: opacity 0.2s ease 0.08s; -o-transition: opacity 0.2s ease 0.08s; transition: opacity 0.2s ease 0.08s;
-            }
+            } */
             .acf-image-uploader.has-value {
                 padding-top: 0px;
             }
@@ -294,25 +306,42 @@ class AdminStyles
             }
             .acf-field.acf-field-image.acf-banner-image .show-if-value {
                 position: absolute;
-                z-index: 100;
+                z-index: 1000;
                 height: auto;
                 max-height: 100px;
                 max-width: 100% !important;
                 overflow: hidden;
-                -webkit-box-shadow: 1px 3px 12px transparent;
-                box-shadow: 1px 3px 12px transparent;
-                -webkit-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
-                -o-transition: height .32s ease, max-height .32s ease, box-shadow .32s ease;
-                transition: height .32s ease, max-height .32s ease, box-shadow .32s ease
+                cursor: pointer;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                -webkit-transition: height .22s ease, max-height .22s ease, box-shadow .22s ease;
+                -o-transition: height .22s ease, max-height .22s ease, box-shadow .22s ease;
+                transition: height .22s ease, max-height .22s ease, box-shadow .22s ease
             }
             .acf-field.acf-field-image.acf-banner-image .show-if-value img {
                 -webkit-transform: translate(0, -30px);
                 -ms-transform: translate(0, -30px);
                 -o-transform: translate(0, -30px);
                 transform: translate(0, -30px);
-                -webkit-transition: transform .32s ease;
-                -o-transition: transform .32s ease;
-                transition: transform .32s ease
+                -webkit-transition: transform .22s ease;
+                -o-transition: transform .22s ease;
+                transition: transform .22s ease
+            }
+            .acf-field.acf-field-image.acf-banner-image .show-if-value:before {
+                content: 'Click to expand';
+                position: absolute;
+                left: 50%;
+                top: 10px;
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                font-size: 11px;
+                z-index: 10;
+                padding: 1px 10px;
+                transform: translateX(-50%);
+                border-radius: 10px;
+                display: none;
+            }
+            .acf-field.acf-field-image.acf-banner-image .show-if-value:hover:before {
+                display: block;
             }
             .acf-field.acf-field-image.acf-banner-image .show-if-value:after {
                 content: '';
@@ -327,23 +356,25 @@ class AdminStyles
                 background-repeat: repeat-x;
                 opacity: 1;
                 filter: alpha(opacity=100);
-                -webkit-transition: opacity .01s linear .32s;
-                -o-transition: opacity .01s linear .32s;
-                transition: opacity .01s linear .32s
+                -webkit-transition: opacity .01s linear .22s;
+                -o-transition: opacity .01s linear .22s;
+                transition: opacity .01s linear .22s
             }
-            .acf-field.acf-field-image.acf-banner-image .show-if-value:hover {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value.shown {
                 max-height: 470px;
-                -webkit-box-shadow: 1px 3px 12px rgba(0, 0, 0, .45);
-                box-shadow: 1px 3px 12px rgba(0, 0, 0, .45)
-                z-index: 1000;
+                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+                z-index: 1001;
             }
-            .acf-field.acf-field-image.acf-banner-image .show-if-value:hover img {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value.shown:before {
+                display: none;
+            }
+            .acf-field.acf-field-image.acf-banner-image .show-if-value.shown img {
                 -webkit-transform: translate(0, 0);
                 -ms-transform: translate(0, 0);
                 -o-transform: translate(0, 0);
                 transform: translate(0, 0)
             }
-            .acf-field.acf-field-image.acf-banner-image .show-if-value:hover:after {
+            .acf-field.acf-field-image.acf-banner-image .show-if-value.shown:after {
                 opacity: 0;
                 filter: alpha(opacity=0);
                 -webkit-transition: opacity .01s;
@@ -351,6 +382,15 @@ class AdminStyles
                 transition: opacity .01s
             }
             </style>
+            <script>
+            (function () {
+                window.addEventListener('DOMContentLoaded', () => {
+                    $('.acf-banner-image .show-if-value').on('click', function () {
+                        $(this).toggleClass('shown');
+                    });
+                });
+            })();
+            </script>
         <?php
         }
         self::$loadedCustomACFStyle = true;
@@ -385,4 +425,3 @@ class AdminStyles
         echo $output;
     }
 }
-

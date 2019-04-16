@@ -21,11 +21,13 @@ class Manager
      */
     public function register()
     {
-        collect($this->getDefinitions())
-            ->each(function ($def) {
-                $parsed = $this->read($def);
-                acf_add_local_field_group($parsed);
-            });
+        foreach (['fields', 'pages'] as $type) {
+            collect($this->getDefinitions($type))
+                ->each(function ($def) {
+                    $parsed = $this->read($def);
+                    acf_add_local_field_group($parsed);
+                });
+        }
     }
 
     /**
@@ -38,7 +40,7 @@ class Manager
     {
         $content = $this->finder->read($def);
 
-        $result = (new FieldGroup(FieldGroup::TYPE_GROUP))
+        $result = (new FieldGroup(FieldGroup::TYPE_FIELD_GROUP))
             ->make($content)
             ->parsed();
 
@@ -50,11 +52,11 @@ class Manager
      *
      * @return array
      */
-    protected function getDefinitions()
+    protected function getDefinitions($type)
     {
         try {
             $fields = $this->finder->index();
-            return array_get($fields, 'fields', []);
+            return array_get($fields, $type, []);
         } catch (\Throwable $th) {
             return [];
         }

@@ -77,6 +77,28 @@ class PostTypeFactory
     }
 
     /**
+     * Register customisation to REST API
+     *
+     * @return void
+     */
+    public function registerRestApi()
+    {
+        foreach ($this->types as $type) {
+            $instance = $this->resolvedAlias[$type];
+            if (!$instance->hasApi) {
+                continue;
+            }
+            register_rest_field(
+                $instance->id,
+                'acf_meta',
+                [
+                    'get_callback' => [$instance, 'retrieveApiMeta'],
+                ]
+            );
+        }
+    }
+
+    /**
      * Alter where template is included if currently dealing with CPT
      *
      * @param  string $path

@@ -21,6 +21,7 @@ class CustomPostTypeProvider extends ServiceProvider
         $this->app->instance('post-type', $factory);
 
         $this->app->action('init', 'post-type@register', 1);
+        $this->app->action('rest_api_init', 'post-type@registerRestApi');
         $this->app->filter('template_include', 'post-type@includeTemplate', 1);
     }
 

@@ -10,20 +10,61 @@ class GroupLocationRule
      * @param array $acf
      * @return array
      */
-    public function process(array $acf): array
+    public function process($group, array $acf): array
     {
-        $location = array_get($acf, 'location');
+        $acf = $this->checkCollapse($group, $acf);
+        $acf = $this->checkLocation($group, $acf);
 
-        if (!$location) {
+        return $acf;
+    }
+
+    /**
+     * Check referred collapsible property for repeater of flexible content
+     * to apply the right key namespace prefix
+     *
+     * @param FieldGroup $group
+     * @param array $acf
+     * @return array
+     */
+    protected function checkCollapse($group, $acf)
+    {
+        $collapsed = array_get($acf, 'collapsed');
+        if (!$collapsed) {
             return $acf;
         }
+        array_set($acf, 'collapsed', $group->makekey($collapsed));
+        return $acf;
+    }
 
-        $result = [];
-        foreach ($location as $loc) {
-            $result = [[$loc]];
+    /**
+     * Check and validate location value
+     *
+     * @param FieldGroup $group
+     * @param array $acf
+     * @return array
+     */
+    protected function checkLocation($group, $acf)
+    {
+        if (!isset($acf['location'])) {
+            return $acf;
         }
-        $acf['location'] = $result;
-
+        $locations = array_get($acf, 'location');
+        if (is_null($locations)) {
+            $acf['location'] = [
+                [
+                    [
+                        'param'    => 'options_page',
+                        'operator' => '==',
+                        'value'    => 'acf-options-global-options'
+                    ],
+                    [
+                        'param'    => 'options_page',
+                        'operator' => '!=',
+                        'value'    => 'acf-options-global-options'
+                    ]
+                ]
+            ];
+        }
         return $acf;
     }
 }

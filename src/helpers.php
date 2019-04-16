@@ -3,7 +3,7 @@
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 
-if (! function_exists('app')) {
+if (!function_exists('app')) {
     /**
      * Get the available container instance.
      *
@@ -21,54 +21,54 @@ if (! function_exists('app')) {
     }
 }
 
-if (! function_exists('root_path')) {
+if (!function_exists('root_path')) {
     /**
      * Get application root path
      *
      * @param  string $path
-     * 
+     *
      * @return string
      */
     function root_path($path = '')
     {
-        return app()->rootPath().($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return app()->rootPath() . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
-if (! function_exists('storage_path')) {
+if (!function_exists('storage_path')) {
     /**
      * Get application storage path
      *
      * @param  string $path
-     * 
+     *
      * @return string
      */
     function storage_path($path = '')
     {
-        return app()->storagePath().($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return app()->storagePath() . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
-if (! function_exists('base_path')) {
+if (!function_exists('base_path')) {
     /**
      * Get application base path
      *
      * @param  string $path
-     * 
+     *
      * @return string
      */
     function base_path($path = '')
     {
-        return app()->basePath().($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return app()->basePath() . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
-if (! function_exists('config')) {
+if (!function_exists('config')) {
     /**
      * Return configuration value
      *
      * @param  string|null  $name
-     * 
+     *
      * @return mixed
      */
     function config($name = '')
@@ -77,14 +77,14 @@ if (! function_exists('config')) {
     }
 }
 
-if (! function_exists('view')) {
+if (!function_exists('view')) {
     /**
      * Include view template
      *
-     * @param  string|null  $name  
+     * @param  string|null  $name
      * @param  array   $parameters
      * @return boolean $overrideRoot
-     * 
+     *
      * @return mixed|ViewMaker
      */
     function view($name = null, $parameters = [], $overrideRoot = false)
@@ -98,13 +98,13 @@ if (! function_exists('view')) {
     }
 }
 
-if (! function_exists('route')) {
+if (!function_exists('route')) {
     /**
      * Route
      *
-     * @param  string|null  $name  
+     * @param  string|null  $name
      * @param  array   $parameters
-     * 
+     *
      * @return String
      */
     function route($name = null, $parameters = [])
@@ -113,12 +113,12 @@ if (! function_exists('route')) {
     }
 }
 
-if (! function_exists('asset')) {
+if (!function_exists('asset')) {
     /**
      * Return asset link
      *
      * @param  string|null  $name
-     * 
+     *
      * @return string
      */
     function asset($name = '')
@@ -127,10 +127,10 @@ if (! function_exists('asset')) {
     }
 }
 
-if (! function_exists('asset_version')) {
+if (!function_exists('asset_version')) {
     /**
      * Return asset version from manifest file
-     * 
+     *
      * @param string $path Override version manifest file path. If not supplied, default path will be used.
      *
      * @return string
@@ -149,7 +149,6 @@ if (! function_exists('asset_version')) {
             } else {
                 $version = json_decode(file_get_contents($path), true);
             }
-
         }
 
         return isset($version['version'])
@@ -158,7 +157,7 @@ if (! function_exists('asset_version')) {
     }
 }
 
-if (! function_exists('get_cpt')) {
+if (!function_exists('get_cpt')) {
     /**
      * Convenient method to create post type instance
      *
@@ -171,7 +170,7 @@ if (! function_exists('get_cpt')) {
     }
 }
 
-if (! function_exists('getcpt')) {
+if (!function_exists('getcpt')) {
     /**
      * Alias to get_cpt()
      *
@@ -184,7 +183,7 @@ if (! function_exists('getcpt')) {
     }
 }
 
-if (! function_exists('env')) {
+if (!function_exists('env')) {
     /**
      * Gets the value of an environment variable. Supports boolean, empty and null.
      *
@@ -223,12 +222,12 @@ if (! function_exists('env')) {
     }
 }
 
-if (! function_exists('fluent')) {
+if (!function_exists('fluent')) {
     /**
      * Creates new fluent object
      *
      * @param  mixed
-     * 
+     *
      * @return Illuminate\Support\Fluent
      */
     function fluent($object = [])
@@ -237,13 +236,13 @@ if (! function_exists('fluent')) {
     }
 }
 
-if(!function_exists('strip_wp_slashes')) {
-    function strip_wp_slashes($array) {
-
+if (!function_exists('strip_wp_slashes')) {
+    function strip_wp_slashes($array)
+    {
         $newArray = $array;
 
-        foreach($newArray as &$item) {
-            if(is_string($item)) {
+        foreach ($newArray as &$item) {
+            if (is_string($item)) {
                 $item = stripslashes($item);
             }
         }
@@ -256,5 +255,18 @@ if (!function_exists('get_blog_url')) {
     function get_blog_url()
     {
         return get_permalink(get_option('page_for_posts'));
+    }
+}
+
+if (!function_exists('make_image')) {
+    function make_image($img, $size = 'thumbnail', $classes = [], $attributes = [])
+    {
+        if (is_array($img)) {
+            $img = array_get($img, 'ID');
+        }
+        $attributes = array_merge($attributes, [
+            'class' => implode(' ', $classes)
+        ]);
+        return wp_get_attachment_image($img, $size, false, $attributes);
     }
 }

@@ -5,27 +5,92 @@ namespace EvolveEngine\Post;
 abstract class AbstractPostType
 {
     
-    /* -------------------------------------------------- */
-    /* Edit these variables
-    /* -------------------------------------------------- */
-    public $id                     = 'true_cpt';
+    /**
+     * Create new post type, by extending from AbstractPostType
+     * and register them as part of config/post-types
+     */
+    
+    /**
+     * @var string  The unique key of the custom post type
+     */
+    public $id = 'true_cpt';
 
-    protected $singleName          = 'CPT';
-    protected $pluralName          = 'CPTs';
-    protected $slug                = 'cpt';
-    protected $singleTemplateName  = 'single-cpt';
+    /**
+     * @var string  Singular form
+     */
+    protected $singleName = 'CPT';
+
+    /**
+     * @var string  Plural form
+     */
+    protected $pluralName = 'CPTs';
+
+    /**
+     * @var string  URL friendly name of the post type
+     */
+    protected $slug = 'cpt';
+
+    /**
+     * @var string  Name of the template used to render single post type.
+     *              The file must be located within page-templates/*.php
+     */
+    protected $singleTemplateName = 'single-cpt';
+
+    /**
+     * @var string  Name of the template used to render post type archive.
+     *              The file must be located within page-templates/*.php
+     */
     protected $archiveTemplateName = 'archive-cpt';
-    protected $menuImage           = 'trueKeylockWPIcons';
-    protected $menuIcon            = null;
 
+    /**
+     * @var string  Icon used in backend. Usually uses dashicons set, e.g. `dashicons-format-status`
+     *
+     * @see https://developer.wordpress.org/resource/dashicons/
+     */
+    protected $menuIcon = null;
+
+    /**
+     * @var string  Icon image used in admin backend. This overrides $menuIcon
+     */
+    protected $menuImage = 'trueKeylockWPIcons';
+
+    /**
+     * @var array  List of post type supported Wordpress feature.
+     */
     protected $supports = ['title'];
 
+    /**
+     * Add ACF Tax options, will be accessible using `cpt_{post_type}`
+     * e.g. get_field('banner_image', 'cpt_true_post_type')
+     * 
+     * @var boolean 
+     */
+    public $hasAcfArchive = true;
+
+    /**
+     * @var array  List of taxonomy
+     */
     protected $tax = [
-        'true_cpt_tax' => [
-            'slug'   => 'cpts',
-            'single' => 'Category',
-            'plural' => 'Categories',
-        ]  
+        // 'true_cpt_tax' => [
+        //     'slug'   => 'cpts',
+        //     'single' => 'Category',
+        //     'plural' => 'Categories',
+        // ]  
+    ];
+
+    /**
+     * Allow REST API hook to this post type
+     *
+     * @var boolean
+     */
+    public $hasApi = false;
+
+    /**
+     * ACF fields to be exposed via REST API
+     *
+     * @var array
+     */
+    protected $acfApi = [
     ];
 
     /**
@@ -52,7 +117,8 @@ abstract class AbstractPostType
             'show_ui'             => true,
             'menu_icon'           => $this->getIcon(),
             'supports'            => $this->supports,
-            'exclude_from_search' => false
+            'exclude_from_search' => false,
+            'show_in_rest'        => $this->hasApi
         ];
             
         if(trim($this->slug) != '') {
@@ -116,14 +182,15 @@ abstract class AbstractPostType
         );
         
         $args = array(
-            'labels'                     => $labels,
-            'hierarchical'               => true,
-            'public'                     => true,
-            'show_ui'                    => true,
-            'show_admin_column'          => true,
-            'show_in_nav_menus'          => true,
-            'rewrite'                    => array('with_front'=> false, 'slug' => $tax['slug']),
-            'show_tagcloud'              => false,
+            'labels'             => $labels,
+            'hierarchical'       => true,
+            'public'             => true,
+            'show_ui'            => true,
+            'show_admin_column'  => true,
+            'show_in_nav_menus'  => true,
+            'rewrite'            => array('with_front'=> false, 'slug' => $tax['slug']),
+            'show_tagcloud'      => false,
+            'show_in_rest'       => $this->hasApi
         );
 
         $args = $this->extendTaxConfigurations($taxID, $args);
@@ -236,6 +303,42 @@ abstract class AbstractPostType
             'post_type' => $this->id,
             'status' => 'publish'
         ]);
+    }
+
+    //
+    // REST API
+    //
+
+    /**
+     * Retrieve and merge values to be returned via API calls
+     *
+     * @param mixed $object
+     * @param string $field_name
+     * @param object $request
+     * @return void
+     */
+    public function retrieveApiMeta($object, $field_name, $request)
+    {
+        $values = [];
+        foreach ($this->acfApi as $key) {
+            $values[$key] = get_field($key, $object['id']);
+        }
+        return $this->apiGet($values, $object, $request);
+    }
+
+    /**
+     * Retrieve additional field for given post,
+     * typically used to supply additional value to return post object
+     * such as ACF fields
+     *
+     * @param array $values
+     * @param array $object
+     * @param object $request
+     * @return mixed
+     */
+    public function apiGet($values, $object, $request)
+    {
+        return $values;
     }
     
 }

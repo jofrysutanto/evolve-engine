@@ -6,8 +6,10 @@ class FieldGroup
 {
     public static $namespace = [];
 
-    const TYPE_GROUP = 'FIELD_GROUP';
+    const TYPE_FIELD_GROUP = 'FIELD_GROUP';
     const TYPE_REPEATER = 'REPEATER';
+    const TYPE_GROUP = 'GROUP';
+    const TYPE_FLEX = 'FLEXIBLE_CONTENT';
 
     /**
      * @var array Raw content of ACF definition file
@@ -43,7 +45,11 @@ class FieldGroup
             $this->content = $content;
             $this->parsed = tap($content, function (&$group) {
                 $group = $this->parseGroup($group);
-                $group[$this->getFieldsKey()] = $this->parseFields($group);
+                if ($this->type === static::TYPE_FLEX) {
+                    $group['layouts'] = $this->parseLayouts($group);
+                } else {
+                    $group[$this->getFieldsKey()] = $this->parseFields($group);
+                }
             });
         });
         return $this;
@@ -86,7 +92,7 @@ class FieldGroup
         collect([
             Rules\GroupLocationRule::class
         ])->each(function ($rule) use (&$group) {
-            $group = (new $rule)->process($group);
+            $group = (new $rule)->process($this, $group);
         });
         return $group;
     }
@@ -101,10 +107,41 @@ class FieldGroup
     {
         $fields = [];
         $yamlFields = array_get($group, $this->getFieldsKey(), []);
+        if (!$yamlFields) {
+            return [];
+        }
         foreach ($yamlFields as $key => $value) {
             $fields[] = $this->makeField($key, $value);
         }
         return $fields;
+    }
+
+    /**
+     * Parse flexible content layouts
+     * which in essence parse nested repeaters
+     *
+     * @param array $group
+     * @return array
+     */
+    protected function parseLayouts($group)
+    {
+        $parsedLayouts = [];
+        $layouts = array_get($group, 'layouts', []);
+        foreach ($layouts as $layoutKey => $layoutConfig) {
+            $parsedLayout = $this->makeField($layoutKey, $layoutConfig);
+            // We don't need 'type' for layouts
+            unset($parsedLayout['type']);
+            $yamlFields = array_get($parsedLayout, 'sub_fields', []);
+
+            $fields = [];
+            foreach ($yamlFields as $key => $value) {
+                $fields[] = $this->makeField($key, $value);
+            }
+
+            $parsedLayout['sub_fields'] = $fields;
+            $parsedLayouts[] = $parsedLayout;
+        }
+        return $parsedLayouts;
     }
 
     /**
@@ -122,16 +159,17 @@ class FieldGroup
             'key'  => $uniqueKey
         ]);
 
-        if (array_get($value, 'type') === 'repeater') {
-            $value = (new FieldGroup(FieldGroup::TYPE_REPEATER))
+        if ($groupType = $this->getGroupType(array_get($value, 'type'))) {
+            $value = (new FieldGroup($groupType))
                 ->make($value)
                 ->parsed();
         }
 
         collect([
-            Rules\FieldDefaultsRule::class
+            Rules\FieldDefaultsRule::class,
+            Rules\FieldConditionRule::class
         ])->each(function ($rule) use ($key, &$value) {
-            $value = (new $rule)->process($key, $value);
+            $value = (new $rule)->process($this, $key, $value);
         });
 
         return $value;
@@ -143,7 +181,7 @@ class FieldGroup
      * @param string $key
      * @return string
      */
-    protected function makeKey($key)
+    public function makeKey($key)
     {
         if (count(static::$namespace) <= 0) {
             return $key;
@@ -160,15 +198,45 @@ class FieldGroup
     protected function getFieldsKey()
     {
         switch ($this->type) {
-            case static::TYPE_GROUP:
+            case static::TYPE_FIELD_GROUP:
                 return 'fields';
                 break;
             case static::TYPE_REPEATER:
+            case static::TYPE_GROUP:
                 return 'sub_fields';
+                break;
+            case static::TYPE_FLEX:
+                return 'layouts';
                 break;
             default:
                 throw new \Exception("Invalid type: $this->type");
                 break;
         }
+    }
+
+    /**
+     * Return 'grouping' type field, some fields
+     * are container of other fields
+     *
+     * @param string $type
+     * @return string|null
+     */
+    protected function getGroupType($type)
+    {
+        $groupType = null;
+        switch ($type) {
+            case 'repeater':
+                $groupType = static::TYPE_REPEATER;
+                break;
+            case 'group':
+                $groupType = static::TYPE_GROUP;
+                break;
+            case 'flexible_content':
+                $groupType = static::TYPE_FLEX;
+                break;
+            default:
+                break;
+        }
+        return $groupType;
     }
 }

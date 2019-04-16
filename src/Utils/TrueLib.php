@@ -6,7 +6,7 @@ class TrueLib
 
     public function formatWysiwygFieldValue( $value, $post_id, $field ) 
     {
-        return '<div class="true-wysiwyg-field entry-content">' . $value . '</div>';
+        return '<div class="rich-content">' . $value . '</div>';
     }
 
     public function getThemeUrl()
