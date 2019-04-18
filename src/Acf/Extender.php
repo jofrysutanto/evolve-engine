@@ -3,7 +3,7 @@
 namespace EvolveEngine\Acf;
 
 class Extender
-{   
+{
     /**
      * Array of extend classes
      *
@@ -45,62 +45,58 @@ class Extender
         return $this;
     }
 
-
-
     /**
      * Register global options specific to post types
      * Useful for registering ACF fields for archive-based templates
-     * 
+     *
      * @return void
      */
     public function addArchiveOptionsPage()
     {
         // Check if ACF is installed
-        if( !function_exists('acf_add_options_page') ) { 
+        if (!function_exists('acf_add_options_page')) {
             return;
         }
 
-        $ctpacf_post_types = get_post_types( array(
+        $ctpacf_post_types = get_post_types([
             '_builtin'    => false,
             'has_archive' => true
-        ) ); //get post types
+        ]); //get post types
 
-        foreach ( $ctpacf_post_types as $cpt ) {
-
-            if( !post_type_exists( $cpt ) ) {
+        foreach ($ctpacf_post_types as $cpt) {
+            if (!post_type_exists($cpt)) {
                 continue;
             }
 
             $postType = app('post-type')->get($cpt);
             if (!(
-                    $postType 
-                    && property_exists($postType, 'hasAcfArchive') 
+                    $postType
+                    && property_exists($postType, 'hasAcfArchive')
                     && $postType->hasAcfArchive
                 )) {
                 continue;
             }
 
-            $cptname = get_post_type_object( $cpt )->labels->name;
+            $cptname = get_post_type_object($cpt)->labels->name;
             $cpt_post_id = 'cpt_' . $cpt;
 
-            if( defined('ICL_LANGUAGE_CODE') ) {
+            if (defined('ICL_LANGUAGE_CODE')) {
                 $cpt_post_id = $cpt_post_id . '_' . ICL_LANGUAGE_CODE;
             }
 
-            $cpt_acf_page = array(
-                'page_title' => ucfirst( $cptname ) . ' Archive',
-                'menu_title' => ucfirst( $cptname ) . ' Archive',
+            $cpt_acf_page = [
+                'page_title'  => ucfirst($cptname) . ' Archive',
+                'menu_title'  => ucfirst($cptname) . ' Archive',
                 'parent_slug' => 'edit.php?post_type=' . $cpt,
-                'menu_slug' => $cpt . '-archive',
-                'capability' => 'edit_posts',
-                'post_id' => $cpt_post_id,
-                'position' => false,
-                'icon_url' => false,
-                'redirect' => false
-            );
+                'menu_slug'   => $cpt . '-archive',
+                'capability'  => 'edit_posts',
+                'post_id'     => $cpt_post_id,
+                'position'    => false,
+                'icon_url'    => false,
+                'redirect'    => false
+            ];
 
-            acf_add_options_page( $cpt_acf_page );
-
+            acf_add_options_page($cpt_acf_page);
         }
     }
 
@@ -129,7 +125,6 @@ class Extender
                     padding-top: 0;
                 }
             </style>
-            <?php    
+            <?php
     }
-
 }

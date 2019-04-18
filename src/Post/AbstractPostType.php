@@ -222,9 +222,9 @@ abstract class AbstractPostType
             return false;
         }
 
-        $path = 'page-templates/' . $path;
-        if (!ends_with($path, '.php')) {
-            $path .= '.php';
+        $path = 'views/' . $path;
+        if (!ends_with($path, '.blade.php')) {
+            $path .= '.blade.php';
         }
 
         $filePath = locate_template([$path]);
