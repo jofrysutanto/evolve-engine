@@ -51,6 +51,12 @@ class DashboardAnnouncement
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_URL, $url);
+            // Tell cURL that it should only spend 10 seconds
+            // trying to connect to the URL in question.
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+            // A given cURL operation should only take
+            // 30 seconds max.
+            curl_setopt($ch, CURLOPT_TIMEOUT, 6);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Accept: application/json'
             ]);
