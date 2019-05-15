@@ -4,7 +4,6 @@ namespace EvolveEngine\Utils;
 
 class DashboardAnnouncement
 {
-
     /**
      * Absolute path to where we would store the cache
      * @var String
@@ -25,7 +24,7 @@ class DashboardAnnouncement
 
     /**
      * Get announcement widget content
-     * 
+     *
      * @return String
      */
     public function getAnnouncement()
@@ -40,7 +39,7 @@ class DashboardAnnouncement
 
     /**
      * Query live announcement feed url
-     * 
+     *
      * @param  String $url
      * @return Array
      */
@@ -71,13 +70,12 @@ class DashboardAnnouncement
 
     /**
      * Default HTML content displayed in the dashboard
-     * 
+     *
      * @return String
      */
     protected function fallbackHtml()
     {
         $logoUrl = 'https://trueagency.com.au/wp-content/themes/true/assets/svg/true-logo.svg';
-        return '<div class="true_widget_detail" style="font-family:helvetica;"><strong>Welcome to your Dashboard</strong><br/><br/>For support, please contact us by emailing <a href="mailto:support@trueagency.com.au">support@trueagency.com.au</a> or calling 03 9529 1850. Please note that support for any plugins/extensions/code not implemented by True Agency will be quoted separately.<br/><br/><a href="http://www.trueagency.com.au">True Agency</a> specialise in websites, ecommerce and mobile apps.</div>'; 
+        return '<div class="true_widget_detail" style="font-family:helvetica;"><strong>Welcome to your Dashboard</strong><br/><br/>For support, please contact us by emailing <a href="mailto:support@trueagency.com.au">support@trueagency.com.au</a> or calling 03 9529 1850. Please note that support for any plugins/extensions/code not implemented by True Agency will be quoted separately.<br/><br/><a href="http://www.trueagency.com.au">True Agency</a> specialise in websites, ecommerce and mobile apps.</div>';
     }
-
 }

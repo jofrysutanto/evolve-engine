@@ -4,6 +4,7 @@ namespace EvolveEngine\Analytics;
 
 class AnalyticsManager
 {
+
     /**
      * @var Repository
      */
@@ -16,7 +17,7 @@ class AnalyticsManager
 
     /**
      * Extendable analytics service
-     *
+     * 
      * @var array
      */
     protected $customCreator = [];
@@ -24,7 +25,7 @@ class AnalyticsManager
     public function __construct(array $config = [])
     {
         $this->config = $config;
-        $this->view = app('blade');
+        $this->view   = app('view-maker');
     }
 
     /**
@@ -35,7 +36,7 @@ class AnalyticsManager
      * @return void
      */
     public function render($type)
-    {
+    {   
         if (!$this->shouldUseAnalytics()) {
             return;
         }
@@ -67,12 +68,13 @@ class AnalyticsManager
             throw new \Exception("Service $type not registered");
         }
 
-        $service = $this->customCreator[$type];
-        $serviceConfig = array_get($this->config, 'services.' . $type);
+        $service       = $this->customCreator[$type];
+        $serviceConfig = array_get($this->config, 'services.'. $type);
 
         if (is_callable($service)) {
             echo call_user_func($service, $serviceConfig);
-        } elseif (class_exists($service)) {
+        }
+        else if (class_exists($service)) {
             echo with(new $service)->render($serviceConfig);
         }
         return;
@@ -101,10 +103,9 @@ class AnalyticsManager
     /**
      * Render Google Analytics
      */
-    public function renderGoogleAnalytics()
-    {
+    public function renderGoogleAnalytics() {
         foreach ($this->config['services']['google-analytics'] as $configValue) {
-            if (!empty($configValue)) {
+            if(!empty($configValue)) {
                 echo $this->renderSingleGoogleAnalytics($configValue);
             }
         }
@@ -115,17 +116,17 @@ class AnalyticsManager
      *
      * @param string $isHead
      */
-    public function renderGoogleTagManager($isHead = true)
-    {
+    public function renderGoogleTagManager($isHead = true) {
         if ($isHead) {
             foreach ($this->config['services']['google-tag-manager'] as $configValue) {
-                if (!empty($configValue)) {
+                if(!empty($configValue)) {
                     echo $this->renderSingleGoogleTagManager($configValue);
                 }
             }
-        } else {
+        }
+        else {
             foreach ($this->config['services']['google-tag-manager'] as $configValue) {
-                if (!empty($configValue)) {
+                if(!empty($configValue)) {
                     echo $this->renderSingleGoogleTagManagerNoScript($configValue);
                 }
             }
@@ -141,10 +142,11 @@ class AnalyticsManager
      */
     public function renderSingleGoogleAnalytics($code)
     {
-        if (!$this->view->exists('analytics/google-analytics')) {
-            return;
+        if ($this->view->exists('analytics/google-analytics')) {
+            return $this->view->make('analytics/google-analytics', ['code' => $code]);
         }
-        return $this->view->render('analytics/google-analytics', ['code' => $code]);
+
+        return $this->view->makeWebRoot(__DIR__ . '/views/google-analytics', ['code' => $code]);
     }
 
     /**
@@ -156,10 +158,11 @@ class AnalyticsManager
      */
     public function renderSingleGoogleTagManager($code)
     {
-        if (!$this->view->exists('analytics/google-tag-manager')) {
-            return;
+        if ($this->view->exists('analytics/google-tag-manager')) {
+            return $this->view->make('analytics/google-tag-manager', ['code' => $code]);
         }
-        return $this->view->render('analytics/google-tag-manager', ['code' => $code]);
+
+        return $this->view->makeWebRoot(__DIR__ . '/views/google-tag-manager', ['code' => $code], true);
     }
 
     /**

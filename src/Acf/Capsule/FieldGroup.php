@@ -186,6 +186,9 @@ class FieldGroup
         if (count(static::$namespace) <= 0) {
             return $key;
         }
+        if (starts_with($key, '~')) {
+            return ltrim($key, '~');
+        }
         $namespace = array_values(array_slice(static::$namespace, -1))[0];
         return $namespace . '_' . $key;
     }

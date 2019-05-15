@@ -267,6 +267,12 @@ if (!function_exists('make_image')) {
         $attributes = array_merge($attributes, [
             'class' => implode(' ', $classes)
         ]);
-        return wp_get_attachment_image($img, $size, false, $attributes);
+        $imgTag = wp_get_attachment_image($img, $size, false, $attributes);
+        if (empty($imgTag) && is_string($img) && !empty($img)) {
+            $htmlAttributes = str_replace('=', '="', http_build_query($attributes, null, '" ', PHP_QUERY_RFC3986)) . '"';
+            $htmlAttributes = str_replace('%20', ' ', $htmlAttributes);
+            $imgTag = sprintf('<img src="%s" %s>', $img, $htmlAttributes);
+        }
+        return $imgTag;
     }
 }
