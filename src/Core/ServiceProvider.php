@@ -37,6 +37,15 @@ abstract class ServiceProvider
     abstract public function register();
 
     /**
+     * Boot the service provider.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+    }
+
+    /**
      * Commands registered by service provider
      * 
      * @param ConsoleApplication $console
