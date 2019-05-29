@@ -48,10 +48,12 @@ class FieldDefaultsRule
      */
     protected function getRecommendHtml($recommmended)
     {
+        $width = array_get($recommmended, 'width', '?');
+        $height = array_get($recommmended, 'height', '?');
         return sprintf(
             '<span class="acf-recommended-size" title="Recommended image size (width and height in pixels)"><span><strong>Size:</strong> %spx by %spx</span></span>',
-            $recommmended['width'],
-            $recommmended['height']
+            $width,
+            $height
         );
     }
 }
