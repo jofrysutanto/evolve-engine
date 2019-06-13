@@ -1,10 +1,11 @@
 <?php
 namespace EvolveEngine\Console;
 
-use EvolveEngine\Router\Traits\RouteDependencyResolverTrait;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use EvolveEngine\Router\Traits\RouteDependencyResolverTrait;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 abstract class Command extends SymfonyCommand
 {
@@ -98,24 +99,112 @@ abstract class Command extends SymfonyCommand
         return $this;
     }
 
-    public function line($message)
+    /**
+     * Write a string as information output.
+     *
+     * @param  string  $string
+     * @return void
+     */
+    public function info($string)
     {
-        $this->output->writeln($message);
+        $this->line($string, 'info');
     }
 
-    public function info($message)
+    /**
+     * Alias for 'info'
+     *
+     * @param  string  $string
+     * @return void
+     */
+    public function success($string)
     {
-        $this->output->writeln('<info>'.$message.'</info>');
+        $this->line($string, 'info');
     }
 
-    public function error($message)
+    /**
+     * Write a string as standard output.
+     *
+     * @param  string  $string
+     * @param  string|null  $style
+     * @return void
+     */
+    public function line($string, $style = null)
     {
-        $this->output->writeln('<error>'.$message.'</error>');
+        $styled = $style ? "<$style>$string</$style>" : $string;
+        $this->output->writeln($styled);
     }
 
-    public function success($message)
+    /**
+     * Write a string as comment output.
+     *
+     * @param  string  $string
+     * @return void
+     */
+    public function comment($string)
     {
-        $this->output->writeln('<info>'.$message.'</info>');
+        $this->line($string, 'comment');
     }
 
+    /**
+     * Write a string as question output.
+     *
+     * @param  string  $string
+     * @return void
+     */
+    public function question($string)
+    {
+        $this->line($string, 'question');
+    }
+
+    /**
+     * Write a string as error output.
+     *
+     * @param  string  $string
+     * @return void
+     */
+    public function error($string)
+    {
+        $this->line($string, 'error');
+    }
+
+    /**
+     * Write a string as warning output.
+     *
+     * @param  string  $string
+     * @return void
+     */
+    public function warn($string)
+    {
+        if (! $this->output->getFormatter()->hasStyle('warning')) {
+            $style = new OutputFormatterStyle('yellow');
+            $this->output->getFormatter()->setStyle('warning', $style);
+        }
+        $this->line($string, 'warning');
+    }
+
+    /**
+     * Alias for 'warn'
+     *
+     * @param  string  $string
+     * @return void
+     */
+    public function warning($string)
+    {
+        $this->warn($string);
+    }
+
+    /**
+     * Write a string in an alert box.
+     *
+     * @param  string  $string
+     * @return void
+     */
+    public function alert($string)
+    {
+        $length = \Illuminate\Support\Str::length(strip_tags($string)) + 12;
+        $this->comment(str_repeat('*', $length));
+        $this->comment('*     '.$string.'     *');
+        $this->comment(str_repeat('*', $length));
+        $this->output->newLine();
+    }
 }
