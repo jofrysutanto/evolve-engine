@@ -70,6 +70,7 @@ class ShareBuilder
         foreach ($services as $service) {
             $shareService = new \Illuminate\Support\Fluent([
                 'service' => $service,
+                'friendly_name' => $this->getFriendlyName($service),
                 'url'     => $this->resolveServiceUrl($service, $customResolver, $title, $url)
             ]);
             $shareable[] = $shareService;
@@ -133,6 +134,24 @@ class ShareBuilder
         $serviceUrl = str_replace('%title%', $shareTitle, $serviceUrl);
 
         return $serviceUrl;
+    }
+
+    /**
+     * Retrieve friendly label for given service
+     *
+     * @param string $service
+     * @return string
+     */
+    protected function getFriendlyName($service)
+    {
+        switch ($service) {
+            case 'googleplus':
+                return 'Google+';
+                break;
+            default:
+                return ucfirst($service);
+                break;
+        }
     }
 
     /**
