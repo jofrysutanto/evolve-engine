@@ -15,18 +15,13 @@ class SentinelServiceProvider extends ServiceProvider
     public function register()
     {
         $app = $this->app;
-        
         // Bail early if we're not using sentinel
         if (!$this->app['config']->get('sentinel.use-sentinel')) {
             return;
         }
-
-        $this->app->bind('sentinel.api', function ($app)
-        {
+        $this->app->bind('sentinel.api', function ($app) {
             $api = new SentinelApi($app['config']->get('sentinel.hq-url'));
-
             $api->registerRouting($app['router'], $app['request']);
-
             return $api;
         });
 
@@ -34,5 +29,4 @@ class SentinelServiceProvider extends ServiceProvider
         $agent->registerRouting($app['router'], $app['request']);
         $this->app->instance('sentinel.agent', $agent);
     }
-
 }

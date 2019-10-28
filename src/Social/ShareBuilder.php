@@ -2,7 +2,7 @@
 namespace EvolveEngine\Social;
 
 class ShareBuilder
-{   
+{
 
     /**
      * @var array
@@ -22,13 +22,13 @@ class ShareBuilder
     public function __construct($config = [])
     {
         $this->config    = $config;
-        $this->viewMaker = app('view-maker');
+        $this->viewMaker = app('blade');
     }
 
     /**
      * Render share widget for given key
      *
-     * @param  string $name 
+     * @param  string $name
      * @param  string|null $title  (Optional) Can be inferred using resolver
      * @param  string|null $url    (Optional) Can be inferred using resolver
      *
@@ -93,16 +93,13 @@ class ShareBuilder
         if (!is_null($title) && !is_null($url)) {
             $shareUrl   = $url;
             $shareTitle = $title;
-        }
-        else if (is_null($customResolver)) {
+        } elseif (is_null($customResolver)) {
             $shareUrl   = app('request')->fullUrl();
             $shareTitle = function_exists('get_the_title');
-        }
-        else if (is_array($customResolver)) {
+        } elseif (is_array($customResolver)) {
             $shareTitle = array_get($customResolver, 'title');
             $shareUrl = array_get($customResolver, 'url');
-        }
-        else if (is_string($customResolver) && strpos($customResolver, '@') !== false) {
+        } elseif (is_string($customResolver) && strpos($customResolver, '@') !== false) {
             list($class, $method) = explode('@', $customResolver);
             $result = app($class)->{$method}();
             $shareTitle = array_get($result, 'title');
@@ -151,10 +148,10 @@ class ShareBuilder
         $viewVars = compact('shareable');
 
         if (is_string($template) && $this->viewMaker->exists($template)) {
-            return $this->viewMaker->make($template, $viewVars);
+            return $this->viewMaker->render($template, $viewVars);
         }
 
-        return $this->viewMaker->make($this->getDefaultTemplate(), $viewVars, true);
+        return $this->viewMaker->render($this->getDefaultTemplate(), $viewVars);
     }
 
     /**
@@ -164,7 +161,6 @@ class ShareBuilder
      */
     protected function getDefaultTemplate()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'share';
+        return __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'share.blade.php';
     }
-
 }
