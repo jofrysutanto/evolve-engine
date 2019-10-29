@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use October\Rain\Router\Router as OctoberRouter;
+use EvolveEngine\Router\Matcher as OctoberRouter;
 
 class Router
 {
@@ -59,7 +59,7 @@ class Router
     /**
      * Register 'GET' route
      *
-     * @param  string $url    
+     * @param  string $url
      * @param  mixed  $config
      *
      * @return Route
@@ -72,7 +72,7 @@ class Router
     /**
      * Register 'POST' route
      *
-     * @param  string $url    
+     * @param  string $url
      * @param  mixed  $config
      *
      * @return Route
@@ -85,10 +85,10 @@ class Router
     /**
      * Get the URL
      *
-     * @param  String $name  
+     * @param  String $name
      * @param  array  $params
      *
-     * @return String 
+     * @return String
      */
     public function url($name, $params = [])
     {
@@ -250,7 +250,7 @@ class Router
      * Register new route
      *
      * @param  string $verb   'GET' or 'POST'
-     * @param  string $url    
+     * @param  string $url
      * @param  array  $config
      *
      * @return Route
@@ -305,7 +305,7 @@ class Router
      * which gives router the opportunity to intercept the timeline,
      * allowing custom action and returning custom response
      *
-     * @param string      $type  Event type 
+     * @param string      $type  Event type
      * @param string|null $url   Url to respond to
      * @param string|null $verb  Verb
      *
@@ -460,5 +460,4 @@ class Router
             exit;
         }
     }
-
 }

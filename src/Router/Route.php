@@ -4,7 +4,6 @@ namespace EvolveEngine\Router;
 
 use EvolveEngine\Router\Traits\RouteDependencyResolverTrait;
 use Illuminate\Http\Request;
-use October\Rain\Router\Router as OctoberRouter;
 
 class Route
 {
@@ -102,7 +101,7 @@ class Route
     }
 
     /**
-     * Which event level 
+     * Which event level
      *
      * @param  string $name
      *
@@ -124,7 +123,7 @@ class Route
      */
     public function shouldRun($event, $verb, $name)
     {
-        return $this->event === $event 
+        return $this->event === $event
             && strtolower($this->verb) === strtolower($verb)
             && $this->name === $name;
     }
@@ -139,7 +138,9 @@ class Route
         $instance = $this->container->make($this->controller);
 
         $parameters = $this->resolveClassMethodDependencies(
-            $this->router->params(), $instance, $this->method
+            $this->router->params(),
+            $instance,
+            $this->method
         );
 
         return $instance->callAction($this->method, $parameters);
@@ -156,7 +157,7 @@ class Route
     {
         if (is_string($config) && strpos($config, '@')) {
             $this->setControllerMethod($config);
-        } else if (is_array($config)) {
+        } elseif (is_array($config)) {
             foreach ($config as $key => $value) {
                 switch ($key) {
                     case 'uses':
@@ -198,5 +199,4 @@ class Route
         $this->method = $method;
         return $this;
     }
-
 }

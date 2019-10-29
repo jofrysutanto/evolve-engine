@@ -5,7 +5,7 @@ namespace EvolveEngine\Core;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
-use October\Rain\Support\Str;
+use Illuminate\Support\Str;
 
 class Application extends Container
 {

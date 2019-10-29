@@ -2,10 +2,10 @@
 
 namespace EvolveEngine\Acf;
 
-use October\Rain\Support\Traits\Singleton;
+use EvolveEngine\Support\Singleton;
 
 class AcfHelper
-{   
+{
     use Singleton;
 
     /**
@@ -22,11 +22,10 @@ class AcfHelper
         }
 
         $flexibleContent = collect($flexibleContent)
-            ->transform(function ($item)
-            {
+            ->transform(function ($item) {
                 $item = fluent($item);
                 $item->layout = $item->acf_fc_layout;
-                return $item; 
+                return $item;
             });
 
         return $flexibleContent;
@@ -53,5 +52,4 @@ class AcfHelper
         }
         return null;
     }
-
 }
