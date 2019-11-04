@@ -14,6 +14,7 @@ class FieldDefaultsRule
     {
         $type = array_get($acf, 'type');
         if (!$type) {
+            // Default field type to text (commonly used)
             $acf['type'] = 'text';
         }
         // Shortcut to width
@@ -32,7 +33,7 @@ class FieldDefaultsRule
             array_set($acf, 'instructions', $instruction);
             unset($acf['instruction']);
         }
-        // Image instruction sippet
+        // Image instruction snippet
         if ($type === 'image' && $recommmended = array_get($acf, 'recommended')) {
             $instruction = $this->getRecommendHtml($recommmended) . '<br>' . array_get($acf, 'instructions');
             array_set($acf, 'instructions', $instruction);

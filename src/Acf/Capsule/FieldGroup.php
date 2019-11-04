@@ -2,6 +2,8 @@
 
 namespace EvolveEngine\Acf\Capsule;
 
+use EvolveEngine\Acf\Capsule\TemplatesFactory;
+
 class FieldGroup
 {
     public static $namespace = [];
@@ -28,9 +30,17 @@ class FieldGroup
      */
     protected $type;
 
+    /**
+     * Templates repository
+     *
+     * @var \EvolveEngine\Acf\Capsule\TemplatesFactory
+     */
+    protected $templates;
+
     public function __construct($type)
     {
         $this->type = $type;
+        $this->templates = TemplatesFactory::instance();
     }
 
     /**
@@ -67,7 +77,7 @@ class FieldGroup
 
     /**
      * Group and scope all fields to given namespace.
-     * The namespace is used to prefix all fields to ensure their uniqueniess.
+     * The namespace is used to prefix all fields to ensure their uniqueness.
      *
      * @param string $namespace
      * @param Closure $callback
@@ -110,6 +120,10 @@ class FieldGroup
         if (!$yamlFields) {
             return [];
         }
+
+        // If templates, merge definitions
+        $yamlFields = $this->templates->mergeTemplates($yamlFields);
+
         foreach ($yamlFields as $key => $value) {
             $fields[] = $this->makeField($key, $value);
         }
@@ -132,6 +146,7 @@ class FieldGroup
             // We don't need 'type' for layouts
             unset($parsedLayout['type']);
             $yamlFields = array_get($parsedLayout, 'sub_fields', []);
+            $yamlFields = $this->templates->mergeTemplates($yamlFields);
 
             $fields = [];
             foreach ($yamlFields as $key => $value) {

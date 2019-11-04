@@ -9,9 +9,15 @@ class Manager
      */
     protected $finder;
 
+    /**
+     * @var TemplatesFactory
+     */
+    protected $templates;
+
     public function __construct()
     {
         $this->finder = new Finder;
+        $this->templates = TemplatesFactory::instance();
     }
 
     /**
@@ -21,6 +27,11 @@ class Manager
      */
     public function register()
     {
+        // Collect all reusable templates
+        $this->storeTemplates(
+            $this->getDefinitions('templates')
+        );
+
         foreach (['fields', 'pages'] as $type) {
             collect($this->getDefinitions($type))
                 ->each(function ($def) {
@@ -45,6 +56,21 @@ class Manager
             ->parsed();
 
         return $result;
+    }
+
+    /**
+     * Store templates data
+     *
+     * @param array $data
+     * @return void
+     */
+    protected function storeTemplates(array $data = [])
+    {
+        foreach ($data as $def) {
+            $content = $this->finder->read($def);
+            $key = str_replace('.yaml', '', basename($def));
+            $this->templates->store($key, $content);
+        }
     }
 
     /**
