@@ -2,13 +2,13 @@
 
 namespace EvolveEngine\Acf\Capsule;
 
-class TemplateCloner
+class BlueprintBuilder
 {
 
     /**
-     * Template fields configuration, 
+     * Template fields configuration,
      * containing fields which can be copied
-     * 
+     *
      * @var Fluent
      */
     protected $config;
@@ -126,12 +126,12 @@ class TemplateCloner
                 continue;
             }
             $key = $fragments[0];
+            if (!isset($fields[$key])) {
+                continue;
+            }
             $width = null;
             if (count($fragments) > 1) {
                 $width = $fragments[1];
-            }
-            if (!isset($fields[$key])) {
-                continue;
             }
             $result[$key] = array_pull($fields, $key);
             if ($width) {
@@ -174,5 +174,4 @@ class TemplateCloner
         }
         return '';
     }
-
 }

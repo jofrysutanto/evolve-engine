@@ -2,7 +2,7 @@
 
 namespace EvolveEngine\Acf\Capsule;
 
-use EvolveEngine\Acf\Capsule\TemplatesFactory;
+use EvolveEngine\Acf\Capsule\BlueprintsFactory;
 
 class FieldGroup
 {
@@ -33,14 +33,14 @@ class FieldGroup
     /**
      * Templates repository
      *
-     * @var \EvolveEngine\Acf\Capsule\TemplatesFactory
+     * @var \EvolveEngine\Acf\Capsule\BlueprintsFactory
      */
     protected $templates;
 
     public function __construct($type)
     {
         $this->type = $type;
-        $this->templates = TemplatesFactory::instance();
+        $this->templates = BlueprintsFactory::instance();
     }
 
     /**
@@ -122,7 +122,7 @@ class FieldGroup
         }
 
         // If templates, merge definitions
-        $yamlFields = $this->templates->mergeTemplates($yamlFields);
+        $yamlFields = $this->templates->mergeBlueprints($yamlFields);
 
         foreach ($yamlFields as $key => $value) {
             $fields[] = $this->makeField($key, $value);
@@ -146,7 +146,7 @@ class FieldGroup
             // We don't need 'type' for layouts
             unset($parsedLayout['type']);
             $yamlFields = array_get($parsedLayout, 'sub_fields', []);
-            $yamlFields = $this->templates->mergeTemplates($yamlFields);
+            $yamlFields = $this->templates->mergeBlueprints($yamlFields);
 
             $fields = [];
             foreach ($yamlFields as $key => $value) {

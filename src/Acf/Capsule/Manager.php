@@ -10,14 +10,14 @@ class Manager
     protected $finder;
 
     /**
-     * @var TemplatesFactory
+     * @var BlueprintsFactory
      */
-    protected $templates;
+    protected $blueprints;
 
     public function __construct()
     {
         $this->finder = new Finder;
-        $this->templates = TemplatesFactory::instance();
+        $this->blueprints = BlueprintsFactory::instance();
     }
 
     /**
@@ -27,9 +27,9 @@ class Manager
      */
     public function register()
     {
-        // Collect all reusable templates
-        $this->storeTemplates(
-            $this->getDefinitions('templates')
+        // Collect all reusable blueprints
+        $this->storeBlueprints(
+            $this->getDefinitions('blueprints')
         );
 
         foreach (['fields', 'pages'] as $type) {
@@ -59,17 +59,17 @@ class Manager
     }
 
     /**
-     * Store templates data
+     * Store blueprints data
      *
      * @param array $data
      * @return void
      */
-    protected function storeTemplates(array $data = [])
+    protected function storeBlueprints(array $data = [])
     {
         foreach ($data as $def) {
             $content = $this->finder->read($def);
             $key = str_replace('.yaml', '', basename($def));
-            $this->templates->store($key, $content);
+            $this->blueprints->store($key, $content);
         }
     }
 
