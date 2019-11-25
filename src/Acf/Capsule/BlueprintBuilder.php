@@ -2,6 +2,8 @@
 
 namespace EvolveEngine\Acf\Capsule;
 
+use EvolveEngine\Acf\Capsule\Utilities\PrefixConditionalLogic;
+
 class BlueprintBuilder
 {
 
@@ -155,11 +157,22 @@ class BlueprintBuilder
     {
         $result = [];
         $prefix = $this->getPrefix();
+        if ($prefix === '') {
+            return $beforeArray;
+        }
         foreach ($beforeArray as $key => $value) {
             $newKey = $prefix . $key;
+            $value = $this->processConditionalLogic($prefix, $value);
             $result[$newKey] = $value;
         }
+        
         return $result;
+    }
+
+    protected function processConditionalLogic($prefix, $acf)
+    {
+        $prefixer = new PrefixConditionalLogic;
+        return $prefixer->run($acf, $prefix);
     }
 
     /**

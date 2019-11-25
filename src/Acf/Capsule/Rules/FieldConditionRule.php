@@ -2,6 +2,8 @@
 
 namespace EvolveEngine\Acf\Capsule\Rules;
 
+use EvolveEngine\Acf\Capsule\Utilities\PrefixConditionalLogic;
+
 class FieldConditionRule
 {
     /**
@@ -12,19 +14,9 @@ class FieldConditionRule
      */
     public function process($group, $key, array $acf): array
     {
-        $conditions = array_get($acf, 'conditional_logic', []);
-        if (count($conditions) <= 0) {
-            return $acf;
-        }
-
-        foreach ($conditions as $and => $andContent) {
-            foreach ($andContent as $or => $value) {
-                $keyReference = array_get($value, 'field', '');
-                $path = sprintf('conditional_logic.%s.%s.field', $and, $or);
-                array_set($acf, $path, $group->makeKey($keyReference));
-            }
-        }
-
-        return $acf;
+        $prefixer = new PrefixConditionalLogic();
+        return $prefixer->run($acf, function ($keyReference) use ($group) {
+            return $group->makeKey($keyReference);
+        });
     }
 }
