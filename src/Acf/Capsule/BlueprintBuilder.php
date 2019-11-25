@@ -169,9 +169,14 @@ class BlueprintBuilder
      */
     protected function getPrefix()
     {
-        if (array_get($this->fields, 'prefix', false)) {
-            return $this->key . '_';
+        $prefix = array_get($this->fields, 'prefix', false);
+        if ($prefix === false) {
+            return '';
         }
-        return '';
+        // If 'prefix' is `true`, it is implied that prefix uses parent key
+        if ($prefix === true) {
+            $prefix = $this->key;
+        }
+        return $prefix . '_';
     }
 }
