@@ -385,8 +385,8 @@ class AdminStyles
             <script>
             (function () {
                 window.addEventListener('DOMContentLoaded', () => {
-                    $('.acf-banner-image .show-if-value').on('click', function () {
-                        $(this).toggleClass('shown');
+                    jQuery('.acf-banner-image .show-if-value').on('click', function () {
+                        jQuery(this).toggleClass('shown');
                     });
                 });
             })();
