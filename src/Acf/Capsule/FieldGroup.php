@@ -37,6 +37,13 @@ class FieldGroup
      */
     protected $templates;
 
+    /**
+     * Debug mode flag
+     *
+     * @var boolean
+     */
+    protected $debug = false;
+
     public function __construct($type)
     {
         $this->type = $type;
@@ -102,7 +109,7 @@ class FieldGroup
         collect([
             Rules\GroupLocationRule::class
         ])->each(function ($rule) use (&$group) {
-            $group = (new $rule)->process($this, $group);
+            $group = (new $rule)->process($this, '', $group);
         });
         return $group;
     }
@@ -176,13 +183,15 @@ class FieldGroup
 
         if ($groupType = $this->getGroupType(array_get($value, 'type'))) {
             $value = (new FieldGroup($groupType))
+                ->setDebug($this->isDebugging())
                 ->make($value)
                 ->parsed();
         }
 
         collect([
             Rules\FieldDefaultsRule::class,
-            Rules\FieldConditionRule::class
+            Rules\FieldConditionRule::class,
+            Rules\HelperRule::class,
         ])->each(function ($rule) use ($key, &$value) {
             $value = (new $rule)->process($this, $key, $value);
         });
@@ -206,6 +215,28 @@ class FieldGroup
         }
         $namespace = array_values(array_slice(static::$namespace, -1))[0];
         return $namespace . '_' . $key;
+    }
+
+    /**
+     * Set debug mode
+     *
+     * @param boolean $isDebugging
+     * @return $this
+     */
+    public function setDebug($isDebugging = true)
+    {
+        $this->debug = $isDebugging;
+        return $this;
+    }
+
+    /**
+     * Check debug mode
+     *
+     * @return boolean
+     */
+    public function isDebugging()
+    {
+        return $this->debug;
     }
 
     /**

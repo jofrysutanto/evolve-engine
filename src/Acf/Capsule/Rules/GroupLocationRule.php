@@ -7,10 +7,12 @@ class GroupLocationRule
     /**
      * Process this rule
      *
+     * @param FieldGroup  $group
+     * @param string $key
      * @param array $acf
      * @return array
      */
-    public function process($group, array $acf): array
+    public function process($group, $key, array $acf): array
     {
         $acf = $this->checkCollapse($group, $acf);
         $acf = $this->checkLocation($group, $acf);

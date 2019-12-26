@@ -14,15 +14,22 @@ class Manager
      */
     protected $blueprints;
 
-    public function __construct()
+    /**
+     * @var array
+     */
+    protected $config;
+
+    public function __construct($config = [])
     {
         $this->finder = new Finder;
         $this->blueprints = BlueprintsFactory::instance();
+        $this->config = $config;
     }
 
     /**
      * Register our in-code ACF fields
      *
+     * @param array $config
      * @return void
      */
     public function register()
@@ -52,6 +59,7 @@ class Manager
         $content = $this->finder->read($def);
 
         $result = (new FieldGroup(FieldGroup::TYPE_FIELD_GROUP))
+            ->setDebug(array_get($this->config, 'debug', false))
             ->make($content)
             ->parsed();
 

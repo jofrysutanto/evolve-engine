@@ -28,7 +28,7 @@ class AcfServiceProvider extends ServiceProvider
         $this->registerAcfOptions($this->app['config']['acf.options']);
 
         $this->app->singleton('acf.capsule', function ($app) {
-            return new Manager;
+            return new Manager($app['config']->get('acf-yaml', []));
         });
 
         // Using our capsulated ACF
