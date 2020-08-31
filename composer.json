@@ -23,8 +23,6 @@
         "illuminate/http": "5.6.*",
         "symfony/var-dumper": "^4.2",
         "filp/whoops": "~2.1",
-        "symfony/console": "~3.3",
-        "symfony/yaml": "^3.0",
         "roots/sage-lib": "~9.0.9",
         "soberwp/controller": "~2.1.0"
     },

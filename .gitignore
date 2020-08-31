@@ -1,5 +1,6 @@
 # Vendor
 composer.phar
+composer.lock
 /vendor
 
 # Local configuration
