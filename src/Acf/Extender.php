@@ -70,10 +70,10 @@ class Extender
 
             $postType = app('post-type')->get($cpt);
             if (!(
-                    $postType
+                $postType
                     && property_exists($postType, 'hasAcfArchive')
                     && $postType->hasAcfArchive
-                )) {
+            )) {
                 continue;
             }
 
@@ -110,14 +110,14 @@ class Extender
         ?>
             <script type="text/javascript">
             (function($) {
-                
+
                 $(document).ready(function() {
                     if ($('#postdivrich').length && $('#seamless').length) {
                         $('#postdivrich').appendTo($('#seamless .acf-input'))
                     }
                 });
-                
-            })(jQuery);    
+
+            })(jQuery);
             </script>
             <style type="text/css">
                 .acf-field #wp-content-editor-tools {

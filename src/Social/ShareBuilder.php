@@ -123,6 +123,9 @@ class ShareBuilder
             case 'googleplus':
                 $serviceUrl = "https://plus.google.com/share?url=%url%";
                 break;
+            case 'pinterest':
+                $serviceUrl = "//pinterest.com/pin/create/link/?url=%url%&amp;description=%title%";
+                break;
             case 'email':
                 $serviceUrl = "mailto:?Subject=%title%&amp;Body=%url%";
                 break;

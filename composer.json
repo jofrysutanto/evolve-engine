@@ -1,13 +1,13 @@
 {
-    "name": "trueagency/evolve-engine",
-    "description": "Evolving WP Engine, by True.",
+    "name": "jofrysutanto/evolve-engine",
+    "description": "Evolve WP engine",
     "keywords": ["framework", "wordpress", "laravel"],
     "license": "MIT",
     "type": "package",
     "authors": [
       {
         "name": "Jofry S",
-        "email": "jofry@trueagency.com.au",
+        "email": "jofrysutanto@gmail.com",
         "homepage": "https://github.com/jofrysutanto"
       }
     ],

@@ -13,7 +13,6 @@ class AcfServiceProvider extends ServiceProvider
      * @var array
      */
     protected $extensions = [
-        Extensions\NavPicker::class,
         Extensions\NavMenu::class
     ];
 
@@ -26,13 +25,6 @@ class AcfServiceProvider extends ServiceProvider
     {
         $this->registerExtensions();
         $this->registerAcfOptions($this->app['config']['acf.options']);
-
-        $this->app->singleton('acf.capsule', function ($app) {
-            return new Manager($app['config']->get('acf-yaml', []));
-        });
-
-        // Using our capsulated ACF
-        $this->app->action('acf/init', 'acf.capsule@register');
     }
 
     /**
