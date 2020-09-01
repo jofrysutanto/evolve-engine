@@ -21,6 +21,12 @@ class TemplateServiceProvider extends ServiceProvider
             (new BladeProvider($app))->register();
             return new Blade($app['view']);
         });
+        $this->app->singleton('blade.compiler', function () {
+            return new \Illuminate\View\Compilers\BladeCompiler(
+                $this->app['files'],
+                $this->app['config']['view.compiled']
+            );
+        });
 
         $compiler = $this->app['blade']->compiler();
 

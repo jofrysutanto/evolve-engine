@@ -1,5 +1,5 @@
 {
-    "name": "jofrysutanto/evolve-engine",
+    "name": "jofrysutanto/evolve-engine-dev",
     "description": "Evolve WP engine",
     "keywords": ["framework", "wordpress", "laravel"],
     "license": "MIT",
@@ -15,16 +15,16 @@
         "php": ">=7.1.3",
         "composer/installers": "~1.0",
         "doctrine/inflector": "1.1.*",
-        "vlucas/phpdotenv": "^2.0.1",
+        "vlucas/phpdotenv": "^3.3",
         "illuminate/support": "^6.18",
         "illuminate/container": "^6.18",
         "illuminate/view": "^6.18",
         "illuminate/config": "^6.18",
         "illuminate/http": "^6.18",
-        "symfony/var-dumper": "^4.2",
+        "symfony/var-dumper": "^4.3.4",
         "filp/whoops": "~2.1",
-        "roots/sage-lib": "~9.0.9",
-        "soberwp/controller": "~2.1.0"
+        "soberwp/controller": "~2.1.0",
+        "laravel/helpers": "^1.3"
     },
     "autoload": {
         "psr-4": {

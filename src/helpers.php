@@ -133,7 +133,7 @@ if (!function_exists('asset_version')) {
      *
      * @param string $path Override version manifest file path. If not supplied, default path will be used.
      *
-     * @return string
+     * @return string|boolean
      */
     function asset_version($path = null)
     {
@@ -141,7 +141,7 @@ if (!function_exists('asset_version')) {
 
         if ($version === false) {
             if (is_null($path)) {
-                $path = base_path('assets/version.json');
+                $path = base_path('dist/version.json');
             }
 
             if (!file_exists($path)) {
@@ -153,7 +153,28 @@ if (!function_exists('asset_version')) {
 
         return isset($version['version'])
             ? $version['version']
-            : '';
+            : null;
+    }
+}
+
+
+
+if (! function_exists('is_hot')) {
+    /**
+     * Checks for HMR mode.
+     *
+     * @return boolean
+     */
+    function is_hot()
+    {
+        if (!in_array(app()->environment(), ['local', 'development'])) {
+            return false;
+        }
+        $flagFile = base_path('dist/.hot');
+        if (!file_exists($flagFile)) {
+            return false;
+        }
+        return true;
     }
 }
 
